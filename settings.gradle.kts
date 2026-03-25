@@ -14,4 +14,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Unveil"
-include(":library")
+include(":unveil-core")

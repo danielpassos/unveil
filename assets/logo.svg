@@ -1,0 +1,34 @@
+<svg width="100%" viewBox="0 0 680 290" xmlns="http://www.w3.org/2000/svg"><defs><mask id="imagine-text-gaps-d5t9pc" maskUnits="userSpaceOnUse"><rect x="0" y="0" width="680" height="290" fill="white"/><rect x="214.6778564453125" y="99.94377136230469" width="250.6443328857422" height="64.91748809814453" fill="black" rx="2"/><rect x="259.17803955078125" y="179.2498321533203" width="161.6439971923828" height="19.58354377746582" fill="black" rx="2"/></mask></defs>
+
+<rect width="680" height="280" rx="12" style="fill:rgb(255, 255, 255);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+<!--
+  Canvas: 680 × 280, center = (340, 140)
+
+  Content block:
+    - wordmark: 52px, baseline needs +36px from top of text box → text y = center_y - 18 + 36 = center_y + 18
+    - tagline: 16px gap below wordmark baseline → y = wordmark_y + 34
+    - total block height ≈ 52 + 16 + 13 = 81px
+    - block top = 140 - 81/2 = 99.5 → wordmark baseline at 99.5 + 52 = 151.5 ≈ 152
+    - tagline baseline at 152 + 34 = 186
+
+  Brackets:
+    - wordmark "UNVEIL" at 52px weight-300 ≈ 195px + 5×12px spacing = 255px wide
+    - centered at 340 → left edge = 340 - 127 = 213, right edge = 340 + 127 = 467
+    - bracket outer x: left = 213 - 18 = 195, right = 467 + 18 = 485
+    - bracket top y: wordmark cap-height ≈ 38px above baseline → top = 152 - 38 = 114, with 8px padding → 106
+    - bracket bottom y: descender ≈ 8px below baseline → 152 + 8 = 160, with 8px padding → 168
+-->
+
+<!-- top-left -->
+<path d="M 195 126 L 195 106 L 215 106" fill="none" stroke="#4FC3F7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" mask="url(#imagine-text-gaps-d5t9pc)" style="fill:none;stroke:rgb(79, 195, 247);color:rgb(255, 255, 255);stroke-width:2.5px;stroke-linecap:round;stroke-linejoin:round;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+<!-- top-right -->
+<path d="M 485 126 L 485 106 L 465 106" fill="none" stroke="#4FC3F7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" mask="url(#imagine-text-gaps-d5t9pc)" style="fill:none;stroke:rgb(79, 195, 247);color:rgb(255, 255, 255);stroke-width:2.5px;stroke-linecap:round;stroke-linejoin:round;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+<!-- bottom-left -->
+<path d="M 195 162 L 195 182 L 215 182" fill="none" stroke="#4FC3F7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="fill:none;stroke:rgb(79, 195, 247);color:rgb(255, 255, 255);stroke-width:2.5px;stroke-linecap:round;stroke-linejoin:round;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+<!-- bottom-right -->
+<path d="M 485 162 L 485 182 L 465 182" fill="none" stroke="#4FC3F7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="fill:none;stroke:rgb(79, 195, 247);color:rgb(255, 255, 255);stroke-width:2.5px;stroke-linecap:round;stroke-linejoin:round;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+<text x="340" y="152" text-anchor="middle" style="fill:rgb(26, 26, 46);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:system-ui, sans-serif;font-size:52px;font-weight:300;text-anchor:middle;dominant-baseline:auto">UNVEIL</text>
+<text x="340" y="194" text-anchor="middle" style="fill:rgb(156, 163, 175);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:system-ui, sans-serif;font-size:13px;font-weight:400;text-anchor:middle;dominant-baseline:auto">KMP DEV PANEL</text>
+</svg>

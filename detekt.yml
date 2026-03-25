@@ -1,0 +1,25 @@
+config:
+    validation: true
+    warningsAsErrors: false
+
+comments:
+    UndocumentedPublicClass:
+        active: true
+    UndocumentedPublicFunction:
+        active: true
+    UndocumentedPublicProperty:
+        active: true
+    OutdatedDocumentation:
+        active: true
+
+naming:
+    FunctionNaming:
+        ignoreAnnotated:
+            - 'Composable'
+            - 'Preview'
+
+style:
+    ForbiddenComment:
+        active: false
+    MagicNumber:
+        active: false
