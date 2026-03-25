@@ -39,6 +39,7 @@ subprojects {
         }
         filter {
             exclude { it.file.path.contains("/build/") }
+            exclude { it.file.path.contains("Test/") }
         }
     }
 
@@ -46,7 +47,7 @@ subprojects {
         buildUponDefaultConfig = true
         config.from(rootProject.files("detekt.yml"))
         source.from(
-            fileTree("src") { include("*/kotlin/**/*.kt") }
+            fileTree("src") { include("*Main/kotlin/**/*.kt") }
         )
         reports {
             html.required.set(true)

@@ -65,17 +65,17 @@ fun UnveilSectionHeader(
  *
  * @param checked Current toggle state.
  * @param label Primary label describing the toggle.
+ * @param onCheckedChange Invoked when the toggle state changes.
  * @param modifier Modifier applied to the row.
  * @param description Optional secondary description providing additional context.
- * @param onCheckedChange Invoked when the toggle state changes.
  */
 @Composable
 fun UnveilToggleRow(
     checked: Boolean,
     label: String,
+    onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
-    description: String? = null,
-    onCheckedChange: (Boolean) -> Unit
+    description: String? = null
 ) {
     Row(
         modifier =
@@ -150,16 +150,16 @@ fun UnveilValueRow(
  * Used to initiate operations within Unveil.
  *
  * @param label Text describing the action.
- * @param enabled Whether the action is currently available.
  * @param onClick Invoked when the action is triggered.
  * @param modifier Modifier applied to the component.
+ * @param enabled Whether the action is currently available.
  */
 @Composable
 fun UnveilButton(
     label: String,
-    enabled: Boolean = true,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true
 ) {
     Button(
         modifier = modifier,
@@ -176,18 +176,18 @@ fun UnveilButton(
  * Used for configurable values or user-provided input within Unveil.
  *
  * @param value Current text value.
- * @param placeholder Hint displayed when the value is empty.
- * @param singleLine Whether the input is restricted to a single line.
  * @param onValueChange Invoked when the text changes.
  * @param modifier Modifier applied to the input field.
+ * @param placeholder Hint displayed when the value is empty.
+ * @param singleLine Whether the input is restricted to a single line.
  */
 @Composable
 fun UnveilTextField(
     value: String,
-    placeholder: String = "",
-    singleLine: Boolean = true,
     onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    placeholder: String = "",
+    singleLine: Boolean = true
 ) {
     TextField(
         value = value,

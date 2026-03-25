@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:compose:compositionlocal-allowlist")
+
 package me.passos.libs.unveil.ui.theme
 
 import androidx.compose.runtime.Composable
