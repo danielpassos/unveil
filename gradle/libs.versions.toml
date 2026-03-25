@@ -6,6 +6,7 @@ androidx-activity = "1.13.0"
 composeMultiplatform = "1.10.3"
 detekt = "1.23.8"
 kotlin = "2.3.20"
+kotlinx-coroutines = "1.10.1"
 ktlint-tool = "1.5.0"
 ktlint-plugin = "14.2.0"
 material3 = "1.10.0-alpha05"
@@ -21,6 +22,7 @@ compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.re
 compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "composeMultiplatform" }
 compose-uiToolingPreview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "composeMultiplatform" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
 nlopez-compose-rules-detekt = { module = "io.nlopez.compose.rules:detekt", version.ref = "nlopez-compose-rules" }
 nlopez-compose-rules-ktlint = { module = "io.nlopez.compose.rules:ktlint", version.ref = "nlopez-compose-rules" }
 

@@ -5,12 +5,16 @@ config:
 comments:
     UndocumentedPublicClass:
         active: true
+        excludes: ['**/commonTest/**', '**/androidTest/**', '**/iosTest/**']
     UndocumentedPublicFunction:
         active: true
+        excludes: ['**/commonTest/**', '**/androidTest/**', '**/iosTest/**']
     UndocumentedPublicProperty:
         active: true
+        excludes: ['**/commonTest/**', '**/androidTest/**', '**/iosTest/**']
     OutdatedDocumentation:
         active: true
+        excludes: ['**/commonTest/**', '**/androidTest/**', '**/iosTest/**']
 
 naming:
     FunctionNaming:
