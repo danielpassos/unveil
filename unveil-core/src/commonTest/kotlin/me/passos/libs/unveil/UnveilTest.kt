@@ -53,7 +53,7 @@ class UnveilTest {
     }
 
     @Test
-    fun `configure called twice accumulates plugins`() {
+    fun `calling configure multiple times registers plugins from each call`() {
         Unveil.configure { register(FakeUnveilPlugin(id = "first")) }
         Unveil.configure { register(FakeUnveilPlugin(id = "second")) }
 
