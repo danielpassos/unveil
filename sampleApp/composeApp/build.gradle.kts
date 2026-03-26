@@ -27,6 +27,7 @@ kotlin {
     sourceSets {
         androidMain.dependencies {
             implementation(libs.androidx.activity.compose)
+            implementation(libs.ktor.client.okhttp)
         }
         commonMain.dependencies {
             implementation(libs.compose.components.resources)
@@ -36,10 +37,17 @@ kotlin {
             implementation(libs.compose.ui)
             implementation(libs.compose.uiToolingPreview)
 
+            implementation(libs.ktor.client.core)
+
             implementation(project(":unveil-core"))
+            implementation(project(":unveil-network"))
+            implementation(project(":unveil-network-ktor"))
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+        }
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
         }
     }
 }
