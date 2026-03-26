@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -132,7 +131,7 @@ internal fun PluginListItem(
                 .padding(horizontal = 20.dp, vertical = 14.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        PluginIconView(icon = plugin.icon, modifier = Modifier.size(20.dp))
+        PluginIconView(icon = plugin.icon)
         Spacer(Modifier.width(12.dp))
         BasicText(
             text = plugin.title,
@@ -270,7 +269,7 @@ internal fun UnveilChip(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(6.dp)
     ) {
-        action.icon?.let { PluginIconView(icon = it, modifier = Modifier.size(14.dp)) }
+        action.icon?.let { PluginIconView(icon = it) }
         BasicText(
             text = action.label,
             style = UnveilTheme.typography.chip.copy(color = textColor)
