@@ -87,7 +87,8 @@ fun UnveilToggleRow(
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = label,
-                style = UnveilTheme.typography.body
+                style = UnveilTheme.typography.body,
+                color = UnveilTheme.colors.onSurface
             )
             if (description != null) {
                 Spacer(Modifier.height(2.dp))
@@ -132,13 +133,15 @@ fun UnveilValueRow(
         Text(
             modifier = Modifier.weight(0.4f),
             text = label,
-            style = UnveilTheme.typography.body
+            style = UnveilTheme.typography.body,
+            color = UnveilTheme.colors.onSurfaceMuted
         )
         SelectionContainer {
             Text(
                 modifier = Modifier.weight(0.6f),
                 text = value,
-                style = UnveilTheme.typography.mono
+                style = UnveilTheme.typography.mono,
+                color = UnveilTheme.colors.onSurface
             )
         }
     }
