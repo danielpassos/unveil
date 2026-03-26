@@ -16,9 +16,25 @@ import androidx.compose.ui.unit.sp
  *
  * Provides all color tokens required to render the Unveil UI in a consistent
  * and self-contained way, independent of the host application's theme.
+ *
+ * @property surface Background for the primary Unveil surface.
+ * @property surfaceVariant Background for elevated or nested surfaces within Unveil.
+ * @property onSurface Content color for elements placed on [surface] or [surfaceVariant].
+ * @property onSurfaceMuted Reduced-emphasis content color for secondary elements.
+ * @property primary Accent color for interactive and highlighted elements.
+ * @property onPrimary Content color for elements placed on [primary] backgrounds.
+ * @property error Color that signals errors, destructive actions, or failed states.
+ * @property success Color that signals successful or healthy states.
+ * @property warning Color that signals caution or potentially problematic states.
+ * @property scrim Overlay applied behind the drawer to obscure host content.
+ * @property divider Color for separator lines between content sections.
+ * @property chipActive Background for a chip in its active (selected) state.
+ * @property chipIdle Background for a chip in its idle (unselected) state.
+ * @property chipOnActive Content color for elements inside an active chip.
+ * @property chipOnIdle Content color for elements inside an idle chip.
  */
 @Immutable
-internal data class UnveilColors(
+data class UnveilColors(
     val surface: Color,
     val surfaceVariant: Color,
     val onSurface: Color,
@@ -66,9 +82,17 @@ private val DefaultDarkColors =
  *
  * Provides text styles required to render the Unveil UI in a consistent
  * and self-contained way, independent of the host application's typography.
+ *
+ * @property drawerTitle Text style for the drawer's top-level title.
+ * @property sectionTitle Text style for section headers within a panel.
+ * @property body Text style for primary content.
+ * @property bodySmall Text style for secondary or supporting content.
+ * @property label Text style for compact labels and badges.
+ * @property chip Text style for chip labels in the quick-action bar.
+ * @property mono Text style for code, identifiers, and other fixed-width content.
  */
 @Immutable
-internal data class UnveilTypography(
+data class UnveilTypography(
     val drawerTitle: TextStyle,
     val sectionTitle: TextStyle,
     val body: TextStyle,
@@ -87,7 +111,7 @@ internal data class UnveilTypography(
 private val DefaultTypography =
     UnveilTypography(
         drawerTitle = TextStyle(fontSize = 17.sp, fontWeight = FontWeight.SemiBold),
-        sectionTitle = TextStyle(fontSize = 11.sp, fontWeight = FontWeight.SemiBold, letterSpacing = 0.5.sp),
+        sectionTitle = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.SemiBold, letterSpacing = 0.5.sp),
         body = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.Normal),
         bodySmall = TextStyle(fontSize = 12.sp, fontWeight = FontWeight.Normal),
         label = TextStyle(fontSize = 11.sp, fontWeight = FontWeight.Medium),
@@ -112,10 +136,17 @@ internal val LocalUnveilTypography = staticCompositionLocalOf { DefaultTypograph
  * Exposes color and typography values that are scoped to the Unveil UI
  * and independent of the host application's theme.
  */
-internal object UnveilTheme {
+object UnveilTheme {
+    /**
+     * The active [UnveilColors] provided to the current composition.
+     */
     val colors: UnveilColors
         @Composable get() = LocalUnveilColors.current
 
+    /**
+     * The active [UnveilTypography] provided to the current composition.
+     *
+     */
     val typography: UnveilTypography
         @Composable get() = LocalUnveilTypography.current
 }
