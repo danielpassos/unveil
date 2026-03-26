@@ -6,17 +6,17 @@ pluginManagement {
     }
 }
 
-includeBuild("build-logic")
-
 dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        gradlePluginPortal()
+    }
+    versionCatalogs {
+        create("libs") {
+            from(files("../gradle/libs.versions.toml"))
+        }
     }
 }
 
-rootProject.name = "Unveil"
-include(":sampleApp:composeApp")
-include(":unveil-core")
-include(":unveil-network")
-include(":unveil-network-ktor")
+rootProject.name = "build-logic"
