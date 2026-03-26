@@ -29,6 +29,8 @@ val nlopezDetekt = libs.nlopez.compose.rules.detekt
 val nlopezKtlint = libs.nlopez.compose.rules.ktlint
 
 subprojects {
+    if (name == "composeApp") return@subprojects
+
     apply(plugin = ktlintPluginId)
     apply(plugin = detektPluginId)
 
