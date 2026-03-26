@@ -7,9 +7,11 @@
 
 ## Implemented
 
-| Module         | Role                                                                                                   |
-|----------------|--------------------------------------------------------------------------------------------------------|
-| `unveil-core`  | Drawer shell, plugin registry, `Unveil` API, theming, shared UI components. Required by all consumers. |
+| Module                | Role                                                                                                   |
+|-----------------------|--------------------------------------------------------------------------------------------------------|
+| `unveil-core`         | Drawer shell, plugin registry, `Unveil` API, theming, shared UI components. Required by all consumers. |
+| `unveil-network`      | Network inspection plugin — owns `NetworkInterceptor` interface, `NetworkPlugin`, `NetworkStore`.      |
+| `unveil-network-ktor` | Ktor adapter for `unveil-network` — installs `KtorNetworkPlugin` on an `HttpClient`.                  |
 
 ---
 
@@ -17,8 +19,6 @@
 
 | Module                        | Role                                                                                                       |
 |-------------------------------|------------------------------------------------------------------------------------------------------------|
-| `unveil-network`              | Network Lab plugin — owns `NetworkInterceptor` interface                                                   |
-| `unveil-network-ktor`         | Ktor adapter for `unveil-network`                                                                          |
 | `unveil-logs`                 | Log Viewer plugin — owns `LogSink` interface                                                               |
 | `unveil-logs-kermit`          | Kermit adapter for `unveil-logs`                                                                           |
 | `unveil-featureflags`         | Feature Flags plugin — owns `FeatureFlagProvider` interface                                                |

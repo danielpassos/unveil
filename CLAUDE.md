@@ -98,12 +98,12 @@ KDoc must describe **what** something is and **why** it exists — not how it lo
 
 | Thing                      | Convention                      | Example                                   |
 |----------------------------|---------------------------------|-------------------------------------------|
-| Plugin class               | `[Feature]Plugin`               | `NetworkLabPlugin`                        |
+| Plugin class               | `[Feature]Plugin`               | `NetworkPlugin`                           |
 | Interface (feature module) | Descriptive noun                | `NetworkInterceptor`, `LogSink`           |
 | Adapter class              | `[Framework][Interface]`        | `KtorNetworkInterceptor`, `KermitLogSink` |
 | Adapter factory            | `[Framework]InterceptorFactory` | `KtorInterceptorFactory`                  |
 | UI composables             | `Unveil*` prefix                | `UnveilSectionHeader`                     |
-| Plugin IDs                 | `snake_case`                    | `"network_lab"`, `"log_viewer"`           |
+| Plugin IDs                 | `snake_case`                    | `"network"`, `"log_viewer"`               |
 | Emoji icons                | Use meaningful emoji            | `UnveilIcon.Emoji("🌐")` for network      |
 
 ---
@@ -120,6 +120,20 @@ Prefix completed TODOs with `// DONE:` until the next cleanup pass.
 `README.md` is at the project root. It contains the storytelling-based introduction,
 installation guide, adapter table, and custom plugin example.
 Do not auto-generate or overwrite it — edit it surgically.
+
+## New Module Checklist
+
+Every new module requires all three of the following before it is considered done:
+
+1. **Module README** — create `<module>/README.md` covering: what it does, installation
+   (Gradle dependency), usage example, and (for adapters) a "what is captured" table.
+
+2. **Root README update** — edit `README.md` surgically:
+   - Feature modules → add an entry under `## Features`
+   - Adapter modules → add a row to the `## Adapters` table
+
+3. **`modules.md` update** — move the module from Planned to Implemented in
+   `.claude/docs/modules.md`.
 
 ## Documentation
 

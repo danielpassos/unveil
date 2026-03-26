@@ -16,3 +16,5 @@ dependencyResolutionManagement {
 rootProject.name = "Unveil"
 include(":sampleApp")
 include(":unveil-core")
+include(":unveil-network")
+include(":unveil-network-ktor")

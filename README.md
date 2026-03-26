@@ -66,6 +66,15 @@ fun App() {
 }
 ```
 
+## Features
+
+Unveil is a drawer panel that slides in from the right edge of your screen.
+It's built around a **plugin system**, every feature is self-contained and optional.
+Add only what you need.
+
+### 🌐 Network
+Inspect every HTTP request and response in real time.
+
 ## Installation
 
 ```toml
@@ -76,6 +85,10 @@ unveil = "current_version"
 [libraries]
 # Core — required
 unveil-core = { module = "me.passos.libs.unveil:unveil-core", version.ref = "unveil" }
+
+# Features — add only what you need
+unveil-network      = { module = "me.passos.libs.unveil:unveil-network",  version.ref = "unveil" }
+unveil-network-ktor = { module = "io.github.yourname:unveil-network-log", version.ref = "unveil" }
 ```
 
 ```kotlin
@@ -84,6 +97,8 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(libs.unveil.core)
+            implementation(libs.unveil.network)
+            implementation(libs.unveil.network-ktor)
         }
     }
 }
@@ -95,12 +110,6 @@ kotlin {
 
 - `compose.ui`, `compose.animation`, `compose.material3`
 - `androidx.activity:activity-compose` in `androidMain` (for `BackHandler`)
-
-## Features
-
-Unveil is a drawer panel that slides in from the right edge of your screen.
-It's built around a **plugin system**, every feature is self-contained and optional.
-Add only what you need.
 
 ## Writing a Custom Plugin
 
@@ -138,6 +147,10 @@ Unveil.configure {
 
 Unveil has **zero opinion about your stack**. Every integration point is an interface.
 Use the adapter for your framework or implement the interface yourself.
+
+| Integration      | Interface             | Built-in Adapters                            |
+|------------------|-----------------------|----------------------------------------------|
+| HTTP client      | `NetworkInterceptor`  | Ktor (`unveil-network-ktor`)                 |
 
 **Using OkHttp? Timber? LaunchDarkly?** Implement the interface. It's a handful of methods.
 
