@@ -73,7 +73,8 @@ It's built around a **plugin system**, every feature is self-contained and optio
 Add only what you need.
 
 ### 🌐 Network
-Inspect every HTTP request and response in real time, delay responses.
+Inspect every HTTP request and response in real time, delay responses and override status codes.
+All without touching your app code or restarting a server.
 
 ## Installation
 

@@ -3,6 +3,7 @@ package me.passos.libs.unveil.network
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import me.passos.libs.unveil.QuickAction
@@ -16,7 +17,7 @@ import me.passos.libs.unveil.network.ui.NetworkPanel
  *
  * Pass this plugin directly to a network framework adapter (e.g. the Ktor adapter) to
  * forward captured traffic to the panel and make all panel controls (such as response
- * delay) take effect automatically.
+ * delay and status override) take effect automatically.
  *
  * Usage:
  * ```kotlin
@@ -43,21 +44,54 @@ class NetworkPlugin : UnveilPlugin {
 
     /**
      * Receiver that framework adapters call to report request and response events.
-     *
-     * Pass this to the adapter of your choice (e.g. KtorNetworkPlugin) during
-     * HTTP client setup.
      */
     val interceptor: NetworkInterceptor = NetworkStoreInterceptor(store)
 
+    // region — Delay
+
     /**
      * Configuration that framework adapters read to apply artificial response delay.
-     *
-     * Pass this to the adapter of your choice during HTTP client setup to allow
-     * delay to be controlled from the panel UI at runtime.
      */
     val delayConfig: NetworkDelayConfig = DelayState()
 
-    private val delayState get() = delayConfig as DelayState
+    /**
+     * Whether artificial response delay is currently active.
+     */
+    var delayEnabled: Boolean
+        get() = (delayConfig as DelayState).enabled
+        set(value) { (delayConfig as DelayState).enabled = value }
+
+    /**
+     * Duration of the artificial delay in seconds.
+     */
+    var delaySeconds: Float
+        get() = (delayConfig as DelayState).delaySeconds
+        set(value) { (delayConfig as DelayState).delaySeconds = value }
+
+    // endregion
+
+    // region — Status override
+
+    /**
+     * Configuration that framework adapters read to override the recorded response status code.
+     */
+    val statusOverrideConfig: NetworkStatusOverrideConfig = StatusOverrideState()
+
+    /**
+     * Whether the response status code override is currently active.
+     */
+    var statusOverrideEnabled: Boolean
+        get() = (statusOverrideConfig as StatusOverrideState).enabled
+        set(value) { (statusOverrideConfig as StatusOverrideState).enabled = value }
+
+    /**
+     * The status code to use when [statusOverrideEnabled] is true.
+     */
+    var statusOverrideCode: Int
+        get() = (statusOverrideConfig as StatusOverrideState).statusCode
+        set(value) { (statusOverrideConfig as StatusOverrideState).statusCode = value }
+
+    // endregion
 
     override val id: String = "network"
     override val title: String = "Network"
@@ -76,10 +110,14 @@ class NetworkPlugin : UnveilPlugin {
     override fun Content(scope: UnveilPanelScope) {
         NetworkPanel(
             store = store,
-            delayEnabled = delayState.enabled,
-            delaySeconds = delayState.delaySeconds,
-            onDelayEnabledChange = { delayState.enabled = it },
-            onDelaySecondsChange = { delayState.delaySeconds = it },
+            delayEnabled = delayEnabled,
+            delaySeconds = delaySeconds,
+            onDelayEnabledChange = { delayEnabled = it },
+            onDelaySecondsChange = { delaySeconds = it },
+            statusOverrideEnabled = statusOverrideEnabled,
+            statusOverrideCode = statusOverrideCode,
+            onStatusOverrideEnabledChange = { statusOverrideEnabled = it },
+            onStatusOverrideCodeChange = { statusOverrideCode = it },
             scope = scope
         )
     }
@@ -88,5 +126,10 @@ class NetworkPlugin : UnveilPlugin {
         override var enabled: Boolean by mutableStateOf(false)
         var delaySeconds: Float by mutableFloatStateOf(1f)
         override val delayMs: Long get() = (delaySeconds * 1000).toLong()
+    }
+
+    private class StatusOverrideState : NetworkStatusOverrideConfig {
+        override var enabled: Boolean by mutableStateOf(false)
+        override var statusCode: Int by mutableIntStateOf(500)
     }
 }

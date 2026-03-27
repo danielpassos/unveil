@@ -16,15 +16,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import io.ktor.client.HttpClient
-import io.ktor.client.call.body
-import io.ktor.client.request.get
-import io.ktor.client.request.post
-import io.ktor.client.request.setBody
 import kotlinx.coroutines.launch
 import me.passos.libs.unveil.Unveil
 import me.passos.libs.unveil.UnveilHost
 import me.passos.libs.unveil.network.NetworkPlugin
 import me.passos.libs.unveil.network.ktor.KtorNetworkPlugin
+import me.passos.libs.unveil.sample.network.NetworkResult
+import me.passos.libs.unveil.sample.network.generateUuid
 
 /**
  * The root composable of the app.
@@ -61,7 +59,7 @@ private fun AppContent(httpClient: HttpClient) {
         contentAlignment = Alignment.Center
     ) {
         val coroutineScope = rememberCoroutineScope()
-        var uuid by remember { mutableStateOf("") }
+        var httpResult by remember { mutableStateOf("-") }
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -69,14 +67,21 @@ private fun AppContent(httpClient: HttpClient) {
         ) {
             Button(
                 onClick = {
-                    uuid = ""
+                    httpResult = "Loading..."
                     coroutineScope.launch {
-                        uuid = httpClient.get("https://httpbin.org/uuid").body()
-                        httpClient
-                            .post(
-                                urlString = "https://httpbin.org/delay/5"
-                            ) {
-                                setBody("key=value")
+                        httpResult =
+                            when (val result = generateUuid(httpClient)) {
+                                is NetworkResult.Success -> {
+                                    result.data
+                                }
+
+                                is NetworkResult.HttpError -> {
+                                    "HTTP error: ${result.status}"
+                                }
+
+                                is NetworkResult.NetworkError -> {
+                                    "Network error: ${result.throwable.message}"
+                                }
                             }
                     }
                 }
@@ -84,7 +89,7 @@ private fun AppContent(httpClient: HttpClient) {
                 Text("Test")
             }
 
-            Text(uuid)
+            Text(httpResult)
         }
     }
 }

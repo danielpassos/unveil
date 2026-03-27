@@ -91,6 +91,62 @@ class NetworkPluginTest {
         assertTrue(plugin.store.entries[0].isInFlight)
     }
 
+    // region — Delay config
+
+    @Test
+    fun `delay is disabled by default`() {
+        assertFalse(plugin.delayEnabled)
+    }
+
+    @Test
+    fun `default delay duration is 1 second`() {
+        assertEquals(1f, plugin.delaySeconds)
+    }
+
+    @Test
+    fun `setting delayEnabled to true is reflected in delayConfig`() {
+        plugin.delayEnabled = true
+
+        assertTrue(plugin.delayConfig.enabled)
+    }
+
+    @Test
+    fun `setting delaySeconds updates delayConfig delayMs proportionally`() {
+        plugin.delaySeconds = 3f
+
+        assertEquals(3000L, plugin.delayConfig.delayMs)
+    }
+
+    // endregion
+
+    // region — Status override config
+
+    @Test
+    fun `status override is disabled by default`() {
+        assertFalse(plugin.statusOverrideEnabled)
+    }
+
+    @Test
+    fun `default status override code is 500`() {
+        assertEquals(500, plugin.statusOverrideCode)
+    }
+
+    @Test
+    fun `setting statusOverrideEnabled to true is reflected in statusOverrideConfig`() {
+        plugin.statusOverrideEnabled = true
+
+        assertTrue(plugin.statusOverrideConfig.enabled)
+    }
+
+    @Test
+    fun `setting statusOverrideCode updates statusOverrideConfig`() {
+        plugin.statusOverrideCode = 404
+
+        assertEquals(404, plugin.statusOverrideConfig.statusCode)
+    }
+
+    // endregion
+
     private fun buildRequest(id: String) = NetworkRequest(
         id = id,
         method = "GET",

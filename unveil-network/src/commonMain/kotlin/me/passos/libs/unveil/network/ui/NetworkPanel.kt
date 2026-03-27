@@ -17,6 +17,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,6 +32,7 @@ import me.passos.libs.unveil.network.NetworkStore
 import me.passos.libs.unveil.ui.components.UnveilSectionHeader
 import me.passos.libs.unveil.ui.components.UnveilSliderRow
 import me.passos.libs.unveil.ui.components.UnveilText
+import me.passos.libs.unveil.ui.components.UnveilTextField
 import me.passos.libs.unveil.ui.components.UnveilToggleRow
 import me.passos.libs.unveil.ui.components.UnveilValueRow
 import me.passos.libs.unveil.ui.theme.UnveilTheme
@@ -39,6 +44,10 @@ internal fun NetworkPanel(
     delaySeconds: Float,
     onDelayEnabledChange: (Boolean) -> Unit,
     onDelaySecondsChange: (Float) -> Unit,
+    statusOverrideEnabled: Boolean,
+    statusOverrideCode: Int,
+    onStatusOverrideEnabledChange: (Boolean) -> Unit,
+    onStatusOverrideCodeChange: (Int) -> Unit,
     scope: UnveilPanelScope
 ) {
     val entries = store.entries
@@ -57,6 +66,27 @@ internal fun NetworkPanel(
                 valueRange = 0f..10f,
                 onValueChange = onDelaySecondsChange,
                 valueLabel = "${delaySeconds.toInt()} s"
+            )
+        }
+        UnveilSectionHeader(title = "Status Override")
+        UnveilToggleRow(
+            label = "Override status code",
+            checked = statusOverrideEnabled,
+            onCheckedChange = onStatusOverrideEnabledChange
+        )
+        if (statusOverrideEnabled) {
+            var codeText by remember(statusOverrideCode) { mutableStateOf(statusOverrideCode.toString()) }
+            UnveilTextField(
+                value = codeText,
+                onValueChange = { input ->
+                    codeText = input
+                    input.toIntOrNull()?.let { code ->
+                        if (code in 100..599) onStatusOverrideCodeChange(code)
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
             )
         }
         UnveilSectionHeader(

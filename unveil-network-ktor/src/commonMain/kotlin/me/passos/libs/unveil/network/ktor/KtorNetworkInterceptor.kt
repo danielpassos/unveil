@@ -1,19 +1,27 @@
 package me.passos.libs.unveil.network.ktor
 
+import io.ktor.client.call.HttpClientCall
 import io.ktor.client.plugins.HttpSend
 import io.ktor.client.plugins.api.createClientPlugin
 import io.ktor.client.plugins.plugin
+import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.HttpResponseContainer
 import io.ktor.client.statement.HttpResponsePipeline
+import io.ktor.http.Headers
+import io.ktor.http.HttpProtocolVersion
+import io.ktor.http.HttpStatusCode
 import io.ktor.util.AttributeKey
+import io.ktor.util.date.GMTDate
 import io.ktor.util.date.getTimeMillis
 import io.ktor.utils.io.ByteReadChannel
+import io.ktor.utils.io.InternalAPI
 import io.ktor.utils.io.readRemaining
 import kotlinx.coroutines.delay
 import kotlinx.io.readByteArray
 import me.passos.libs.unveil.network.NetworkPlugin
 import me.passos.libs.unveil.network.NetworkRequest
 import me.passos.libs.unveil.network.NetworkResponse
+import kotlin.coroutines.CoroutineContext
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -52,6 +60,7 @@ val KtorNetworkPlugin =
     createClientPlugin("UnveilNetwork", ::KtorNetworkPluginConfig) {
         val networkInterceptor = pluginConfig.plugin.interceptor
         val delayConfig = pluginConfig.plugin.delayConfig
+        val statusOverrideConfig = pluginConfig.plugin.statusOverrideConfig
 
         @Suppress("TooGenericExceptionCaught")
         client.plugin(HttpSend).intercept { request ->
@@ -60,7 +69,11 @@ val KtorNetworkPlugin =
                 if (delayConfig.enabled) {
                     delay(delayConfig.delayMs)
                 }
-                call
+                if (statusOverrideConfig.enabled) {
+                    StatusOverrideCall(call, HttpStatusCode.fromValue(statusOverrideConfig.statusCode))
+                } else {
+                    call
+                }
             } catch (cause: Throwable) {
                 val id = request.attributes.getOrNull(requestIdKey)
                 if (id != null) {
@@ -103,11 +116,17 @@ val KtorNetworkPlugin =
         onResponse { response ->
             val id = response.call.attributes.getOrNull(requestIdKey) ?: return@onResponse
             val startTime = response.call.attributes.getOrNull(startTimeKey) ?: 0L
+            val statusCode =
+                if (statusOverrideConfig.enabled) {
+                    statusOverrideConfig.statusCode
+                } else {
+                    response.status.value
+                }
 
             networkInterceptor.onResponseReceived(
                 id,
                 NetworkResponse(
-                    statusCode = response.status.value,
+                    statusCode = statusCode,
                     headers =
                         response.headers
                             .entries()
@@ -132,11 +151,17 @@ val KtorNetworkPlugin =
 
             val bytes = body.readRemaining().readByteArray()
             val bodyText = bytes.decodeToString().ifEmpty { null }
+            val statusCode =
+                if (statusOverrideConfig.enabled) {
+                    statusOverrideConfig.statusCode
+                } else {
+                    context.response.status.value
+                }
 
             networkInterceptor.onResponseReceived(
                 id,
                 NetworkResponse(
-                    statusCode = context.response.status.value,
+                    statusCode = statusCode,
                     headers =
                         context.response.headers
                             .entries()
@@ -148,4 +173,34 @@ val KtorNetworkPlugin =
 
             proceedWith(HttpResponseContainer(info, ByteReadChannel(bytes)))
         }
+    }
+
+// HttpClientCall.response has `protected set` in Ktor 3.x, so the only way to produce a
+// call with a replaced response from outside the class is to extend HttpClientCall and set
+// the property in the init block, which is allowed because protected access includes subclasses.
+private class StatusOverrideCall(
+    original: HttpClientCall,
+    overrideStatus: HttpStatusCode
+) : HttpClientCall(original.client) {
+    init {
+        request = original.request
+        response = original.response.withStatusOverride(overrideStatus)
+    }
+}
+
+@OptIn(InternalAPI::class)
+private fun HttpResponse.withStatusOverride(overrideStatus: HttpStatusCode): HttpResponse =
+    object : HttpResponse() {
+        // call delegates to the original so that body() and attribute lookups work
+        // through the original call's pipeline, which has already captured the body bytes.
+        override val call: HttpClientCall get() = this@withStatusOverride.call
+        override val status: HttpStatusCode get() = overrideStatus
+        override val version: HttpProtocolVersion get() = this@withStatusOverride.version
+        override val requestTime: GMTDate get() = this@withStatusOverride.requestTime
+        override val responseTime: GMTDate get() = this@withStatusOverride.responseTime
+        override val headers: Headers get() = this@withStatusOverride.headers
+        override val coroutineContext: CoroutineContext get() = this@withStatusOverride.coroutineContext
+
+        @InternalAPI
+        override val rawContent: ByteReadChannel get() = this@withStatusOverride.rawContent
     }
