@@ -28,5 +28,4 @@ internal fun StackEntry.displayRoute(): String {
  * Returns true when the string looks like a Kotlin/Java fully-qualified class name:
  * contains dots, no path separators (`/`), and no placeholder braces (`{`).
  */
-private fun String.isFqnRoute(): Boolean =
-    contains('.') && !contains('/') && !contains('{')
+private fun String.isFqnRoute(): Boolean = contains('.') && !contains('/') && !contains('{')

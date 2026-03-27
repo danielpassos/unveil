@@ -17,7 +17,7 @@ data class NavigationEntry(
     val route: String,
     val direction: NavigationDirection,
     val arguments: Map<String, String>,
-    val timestamp: Long,
+    val timestamp: Long
 )
 
 /**

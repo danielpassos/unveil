@@ -13,8 +13,9 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
  * @property maxHistoryEntries Maximum number of history entries to retain. When exceeded,
  * the oldest entry is discarded. Defaults to 50.
  */
-internal class NavigationStore(val maxHistoryEntries: Int = 50) {
-
+internal class NavigationStore(
+    val maxHistoryEntries: Int = 50
+) {
     /**
      * Live representation of the current back stack, ordered from bottom to top.
      *
@@ -35,7 +36,10 @@ internal class NavigationStore(val maxHistoryEntries: Int = 50) {
      * The stack is replaced with [fullStack] and [entry] is prepended to history.
      * If history exceeds [maxHistoryEntries], the oldest entry is removed.
      */
-    fun record(entry: NavigationEntry, fullStack: List<StackEntry>) {
+    fun record(
+        entry: NavigationEntry,
+        fullStack: List<StackEntry>
+    ) {
         stack.clear()
         stack.addAll(fullStack)
         history.add(0, entry)

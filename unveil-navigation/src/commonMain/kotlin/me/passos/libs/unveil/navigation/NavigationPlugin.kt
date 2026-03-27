@@ -31,8 +31,9 @@ import me.passos.libs.unveil.navigation.ui.NavigationPanel
  * @param maxHistoryEntries Maximum number of navigation history entries to retain.
  * When exceeded, the oldest entry is discarded. Defaults to 50.
  */
-class NavigationPlugin(maxHistoryEntries: Int = 50) : UnveilPlugin {
-
+class NavigationPlugin(
+    maxHistoryEntries: Int = 50
+) : UnveilPlugin {
     internal val store: NavigationStore = NavigationStore(maxHistoryEntries)
 
     /**

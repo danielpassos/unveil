@@ -1,12 +1,15 @@
 package me.passos.libs.unveil.navigation
 
 /**
- * Direction of a navigation event.
+ * Represents the direction of a navigation event.
  *
- * Indicates whether a navigation event moved forward in the stack ([Push])
- * or returned to a previous destination ([Pop]).
+ * Used to distinguish whether navigation advanced to a new destination or
+ * returned to a previous one.
  */
 enum class NavigationDirection {
+    /** Indicates navigation to a new destination. */
     Push,
+
+    /** Indicates navigation to a previous destination. */
     Pop
 }

@@ -1,8 +1,8 @@
 package me.passos.libs.unveil.navigation.compose
 
-import me.passos.libs.unveil.core.platform.currentTimeMs
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph
+import me.passos.libs.unveil.core.platform.currentTimeMs
 import me.passos.libs.unveil.navigation.NavigationDirection
 import me.passos.libs.unveil.navigation.NavigationEntry
 import me.passos.libs.unveil.navigation.NavigationPlugin

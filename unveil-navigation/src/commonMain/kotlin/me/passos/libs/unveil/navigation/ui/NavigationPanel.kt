@@ -23,9 +23,10 @@ import me.passos.libs.unveil.ui.theme.UnveilTheme
 @Composable
 internal fun NavigationPanel(store: NavigationStore) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
     ) {
         UnveilSectionHeader(title = "Current Stack (${store.stack.size})")
 
@@ -34,9 +35,10 @@ internal fun NavigationPanel(store: NavigationStore) {
                 text = "No navigation recorded yet.",
                 style = UnveilTheme.typography.body,
                 color = UnveilTheme.colors.onSurfaceMuted,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp)
             )
         } else {
             store.stack.forEachIndexed { index, entry ->
@@ -54,9 +56,10 @@ internal fun NavigationPanel(store: NavigationStore) {
                 text = "No navigation recorded yet.",
                 style = UnveilTheme.typography.body,
                 color = UnveilTheme.colors.onSurfaceMuted,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp)
             )
         } else {
             store.history.forEach { entry ->
@@ -67,11 +70,15 @@ internal fun NavigationPanel(store: NavigationStore) {
 }
 
 @Composable
-private fun StackEntryRow(entry: StackEntry, isCurrent: Boolean) {
+private fun StackEntryRow(
+    entry: StackEntry,
+    isCurrent: Boolean
+) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
@@ -90,15 +97,17 @@ private fun StackEntryRow(entry: StackEntry, isCurrent: Boolean) {
 @Composable
 private fun HistoryEntryRow(entry: NavigationEntry) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        val (arrow, arrowColor) = when (entry.direction) {
-            NavigationDirection.Push -> "→" to UnveilTheme.colors.success
-            NavigationDirection.Pop -> "←" to UnveilTheme.colors.onSurfaceMuted
-        }
+        val (arrow, arrowColor) =
+            when (entry.direction) {
+                NavigationDirection.Push -> "→" to UnveilTheme.colors.success
+                NavigationDirection.Pop -> "←" to UnveilTheme.colors.onSurfaceMuted
+            }
         Text(
             text = "$arrow ",
             style = UnveilTheme.typography.body,

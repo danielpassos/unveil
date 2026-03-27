@@ -8,7 +8,8 @@
       "Bash(./gradlew :unveil-navigation-compose:compileKotlinMetadata)",
       "Bash(./gradlew :unveil-navigation-compose:compileDebugKotlinAndroid)",
       "Bash(./gradlew :unveil-navigation-compose:tasks)",
-      "Bash(./gradlew :unveil-navigation-compose:compileKotlinIosArm64)"
+      "Bash(./gradlew :unveil-navigation-compose:compileKotlinIosArm64)",
+      "Skill(update-config)"
     ]
   }
 }

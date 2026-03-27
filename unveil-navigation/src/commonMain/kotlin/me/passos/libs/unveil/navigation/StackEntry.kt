@@ -11,7 +11,7 @@ package me.passos.libs.unveil.navigation
  */
 data class StackEntry(
     val route: String,
-    val arguments: Map<String, String>,
+    val arguments: Map<String, String>
 )
 
 /**
