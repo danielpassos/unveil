@@ -1,8 +1,29 @@
+<div id="user-content-toc">
+   <ul style="list-style: none;">
+      <summary>
+         <a href="https://github.com/danielpassos/unveil/actions/workflows/gradle.yml">
+            <img src="https://img.shields.io/github/actions/workflow/status/danielpassos/unveil/gradle.yml" alt="Build">
+         </a>
+         <a href="https://search.maven.org/search?q=g:me.passos.libs.unveil">
+            <img src="https://img.shields.io/maven-central/v/me.passos.libs.unveil/unveil-core" alt="Maven Central">
+         </a>
+         <a href="https://kotlinlang.org/multiplatform/">
+            <img src="https://img.shields.io/badge/Kotlin-Multiplatform-blue.svg" alt="Kotlin Multiplatform">
+         </a>
+         <a href="https://kotlinlang.org/compose-multiplatform/">
+            <img src="https://img.shields.io/badge/Compose-Multiplatform-green.svg" alt="Compose Multiplatform">
+         </a>
+         <a href="https://opensource.org/licenses/Apache-2.0">
+            <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="License">
+         </a>
+      </summary>
+   </ul>
+</div>
 <p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/logo_dark.svg">
-    <img src="assets/logo.svg" alt="Unveil" width="500">
-  </picture>
+   <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="assets/logo_dark.svg">
+      <img src="assets/logo.svg" alt="Unveil" width="500">
+   </picture>
 </p>
 
 > *The hidden side of your app, one swipe away.*
@@ -73,22 +94,27 @@ It's built around a **plugin system**, every feature is self-contained and optio
 Add only what you need.
 
 ### 💥 Crash Simulation
+
 Trigger a crash, an ANR, an unhandled exception, or an OOM on demand.
 No special code required. Essential for testing crash reporting pipelines.
 
 ### 📱 Device Info
+
 See app version, build variant, environment, device model, OS version, screen resolution and
 density, locale, and timezone, all in one place.
 
 ### 📋 Logs
+
 Stream live log events from your app with filtering by level (V/D/I/W/E/A) and free-text
 search across tag and message. Configurable buffer size. Zero changes to existing log call sites.
 
 ### 🧭 Navigation
+
 Inspect the live back stack and the full navigation history. Every destination change is captured
 with its resolved route, direction (push or pop), arguments, and timestamp.
 
 ### 🌐 Network
+
 Inspect every HTTP request and response in real time, delay responses and override status codes.
 All without touching your app code or restarting a server.
 
@@ -104,14 +130,14 @@ unveil = "current_version"
 unveil-core = { module = "me.passos.libs.unveil:unveil-core", version.ref = "unveil" }
 
 # Features — add only what you need
-unveil-crash              = { module = "me.passos.libs.unveil:unveil-crash",              version.ref = "unveil" }
-unveil-deviceinfo         = { module = "me.passos.libs.unveil:unveil-deviceinfo",         version.ref = "unveil" }
-unveil-logs               = { module = "me.passos.libs.unveil:unveil-logs",               version.ref = "unveil" }
-unveil-logs-kermit        = { module = "me.passos.libs.unveil:unveil-logs-kermit",        version.ref = "unveil" }
-unveil-navigation         = { module = "me.passos.libs.unveil:unveil-navigation",         version.ref = "unveil" }
+unveil-crash = { module = "me.passos.libs.unveil:unveil-crash", version.ref = "unveil" }
+unveil-deviceinfo = { module = "me.passos.libs.unveil:unveil-deviceinfo", version.ref = "unveil" }
+unveil-logs = { module = "me.passos.libs.unveil:unveil-logs", version.ref = "unveil" }
+unveil-logs-kermit = { module = "me.passos.libs.unveil:unveil-logs-kermit", version.ref = "unveil" }
+unveil-navigation = { module = "me.passos.libs.unveil:unveil-navigation", version.ref = "unveil" }
 unveil-navigation-compose = { module = "me.passos.libs.unveil:unveil-navigation-compose", version.ref = "unveil" }
-unveil-network            = { module = "me.passos.libs.unveil:unveil-network",            version.ref = "unveil" }
-unveil-network-ktor       = { module = "me.passos.libs.unveil:unveil-network-ktor",       version.ref = "unveil" }
+unveil-network = { module = "me.passos.libs.unveil:unveil-network", version.ref = "unveil" }
+unveil-network-ktor = { module = "me.passos.libs.unveil:unveil-network-ktor", version.ref = "unveil" }
 ```
 
 ```kotlin
@@ -127,7 +153,7 @@ kotlin {
             implementation(libs.unveil.navigation)
             implementation(libs.unveil.navigation.compose)
             implementation(libs.unveil.network)
-            implementation(libs.unveil.network-ktor)
+            implementation(libs.unveil.network - ktor)
         }
     }
 }
@@ -177,11 +203,11 @@ Unveil.configure {
 Unveil has **zero opinion about your stack**. Every integration point is an interface.
 Use the adapter for your framework or implement the interface yourself.
 
-| Integration      | Interface              | Built-in Adapters                                |
-|------------------|------------------------|--------------------------------------------------|
-| Log writer       | `LogSink`              | Kermit (`unveil-logs-kermit`)                    |
-| Navigation stack | `NavigationObserver`   | Compose Navigation (`unveil-navigation-compose`) |
-| HTTP client      | `NetworkInterceptor`   | Ktor (`unveil-network-ktor`)                     |
+| Integration      | Interface            | Built-in Adapters                                |
+|------------------|----------------------|--------------------------------------------------|
+| Log writer       | `LogSink`            | Kermit (`unveil-logs-kermit`)                    |
+| Navigation stack | `NavigationObserver` | Compose Navigation (`unveil-navigation-compose`) |
+| HTTP client      | `NetworkInterceptor` | Ktor (`unveil-network-ktor`)                     |
 
 **Using OkHttp? Timber? LaunchDarkly?** Implement the interface. It's a handful of methods.
 
