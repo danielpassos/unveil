@@ -61,6 +61,15 @@ object Unveil {
     }
 
     /**
+     * Registers a plugin in Unveil.
+     *
+     * @param plugin Plugin to register.
+     */
+    fun register(plugin: UnveilPlugin) {
+        UnveilRegistry.register(plugin)
+    }
+
+    /**
      * Enables Unveil.
      */
     fun enable() {

@@ -56,9 +56,7 @@ import org.jetbrains.compose.resources.stringResource
  */
 @Composable
 fun App() {
-    val logsPlugin = LogsPlugin(maxEntries = 10)
-    val navigationPlugin = NavigationPlugin(maxHistoryEntries = 10)
-    val networkPlugin = NetworkPlugin()
+    Unveil.enable()
 
     Unveil.configure {
         register(CustomBoxPlugin())
@@ -71,26 +69,30 @@ fun App() {
                 environment = "staging"
             )
         )
-        register(logsPlugin)
-        register(navigationPlugin)
-        register(networkPlugin)
     }
-    Unveil.enable()
 
-    // -- Kermit --------------------------------------------------------------
+    // -- Logs ----------------------------------------------------------------
 
+    val logsPlugin = LogsPlugin(maxEntries = 10)
     Logger.addLogWriter(KermitLogSink(logsPlugin))
+    Unveil.register(logsPlugin)
 
-    // -- Ktor ----------------------------------------------------------------
+    // -- Network -------------------------------------------------------------
 
+    val networkPlugin = NetworkPlugin()
     val httpClient =
         HttpClient {
             install(KtorNetworkPlugin) {
                 plugin = networkPlugin
             }
         }
+    Unveil.register(networkPlugin)
+
+    // -- Navigation ----------------------------------------------------------
 
     val navController = rememberNavController()
+    val navigationPlugin = NavigationPlugin(maxHistoryEntries = 10)
+    Unveil.register(navigationPlugin)
 
     DisposableEffect(navController) {
         val observer = ComposeNavigationObserver(navController, navigationPlugin)
