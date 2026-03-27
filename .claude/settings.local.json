@@ -1,15 +1,13 @@
 {
   "permissions": {
     "allow": [
+      "Skill(update-config)",
       "Bash(xargs cat:*)",
-      "Bash(./gradlew ktlintCheck detekt)",
-      "Bash(./gradlew ktlintCheck)",
       "Bash(cp:*)",
-      "Bash(./gradlew :unveil-navigation-compose:compileKotlinMetadata)",
-      "Bash(./gradlew :unveil-navigation-compose:compileDebugKotlinAndroid)",
-      "Bash(./gradlew :unveil-navigation-compose:tasks)",
-      "Bash(./gradlew :unveil-navigation-compose:compileKotlinIosArm64)",
-      "Skill(update-config)"
+      "Bash(jq:*)",
+      "Bash(./gradlew ktlintCheck)",
+      "Bash(./gradlew ktlintCheck detekt)",
+      "Bash(./gradlew ktlintCheck detekt --dry-run)"
     ]
   }
 }
