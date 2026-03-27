@@ -32,7 +32,6 @@ fun App() {
     val networkPlugin = NetworkPlugin()
 
     Unveil.configure {
-        register(CustomConfigurationPlugin())
         register(CustomBoxPlugin())
         register(networkPlugin)
     }
