@@ -3,7 +3,12 @@
     "allow": [
       "Bash(xargs cat:*)",
       "Bash(./gradlew ktlintCheck detekt)",
-      "Bash(./gradlew ktlintCheck)"
+      "Bash(./gradlew ktlintCheck)",
+      "Bash(cp:*)",
+      "Bash(./gradlew :unveil-navigation-compose:compileKotlinMetadata)",
+      "Bash(./gradlew :unveil-navigation-compose:compileDebugKotlinAndroid)",
+      "Bash(./gradlew :unveil-navigation-compose:tasks)",
+      "Bash(./gradlew :unveil-navigation-compose:compileKotlinIosArm64)"
     ]
   }
 }

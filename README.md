@@ -84,6 +84,10 @@ density, locale, and timezone, all in one place.
 Stream live log events from your app with filtering by level (V/D/I/W/E/A) and free-text
 search across tag and message. Configurable buffer size. Zero changes to existing log call sites.
 
+### 🧭 Navigation
+Inspect the live back stack and the full navigation history. Every destination change is captured
+with its resolved route, direction (push or pop), arguments, and timestamp.
+
 ### 🌐 Network
 Inspect every HTTP request and response in real time, delay responses and override status codes.
 All without touching your app code or restarting a server.

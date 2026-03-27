@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -39,12 +40,15 @@ kotlin {
 
             implementation(libs.ktor.client.core)
             implementation(libs.kermit)
+            implementation(libs.navigation.compose)
 
             implementation(project(":unveil-core"))
             implementation(project(":unveil-crash"))
             implementation(project(":unveil-deviceinfo"))
             implementation(project(":unveil-logs"))
             implementation(project(":unveil-logs-kermit"))
+            implementation(project(":unveil-navigation"))
+            implementation(project(":unveil-navigation-compose"))
             implementation(project(":unveil-network"))
             implementation(project(":unveil-network-ktor"))
         }

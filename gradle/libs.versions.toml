@@ -11,6 +11,7 @@ ktlint-tool = "1.5.0"
 ktlint-plugin = "14.2.0"
 kermit = "2.1.0"
 ktor = "3.4.1"
+navigation = "2.9.2"
 material3 = "1.10.0-alpha05"
 nlopez-compose-rules = "0.5.6"
 vanniktechMavenPublish = "0.36.0"
@@ -30,6 +31,7 @@ ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
 ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
+navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigation" }
 nlopez-compose-rules-detekt = { module = "io.nlopez.compose.rules:detekt", version.ref = "nlopez-compose-rules" }
 nlopez-compose-rules-ktlint = { module = "io.nlopez.compose.rules:ktlint", version.ref = "nlopez-compose-rules" }
 
@@ -42,4 +44,5 @@ composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMul
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint-plugin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 vanniktech-mavenPublish = { id = "com.vanniktech.maven.publish", version.ref = "vanniktechMavenPublish" }
