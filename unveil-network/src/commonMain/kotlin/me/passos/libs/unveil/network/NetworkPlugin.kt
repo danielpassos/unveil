@@ -1,6 +1,10 @@
 package me.passos.libs.unveil.network
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import me.passos.libs.unveil.QuickAction
 import me.passos.libs.unveil.UnveilIcon
 import me.passos.libs.unveil.UnveilPlugin
@@ -10,9 +14,9 @@ import me.passos.libs.unveil.network.ui.NetworkPanel
 /**
  * Unveil plugin that captures and displays HTTP network traffic.
  *
- * Wire [interceptor] into a network framework adapter (e.g. the Ktor adapter) so that
- * outgoing requests and their responses are forwarded to the plugin's internal store.
- * The panel then presents the captured traffic in real time.
+ * Pass this plugin directly to a network framework adapter (e.g. the Ktor adapter) to
+ * forward captured traffic to the panel and make all panel controls (such as response
+ * delay) take effect automatically.
  *
  * Usage:
  * ```kotlin
@@ -24,7 +28,7 @@ import me.passos.libs.unveil.network.ui.NetworkPanel
  *
  * val httpClient = HttpClient {
  *     install(KtorNetworkPlugin) {
- *         interceptor = networkPlugin.interceptor
+ *         plugin = networkPlugin
  *     }
  * }
  * ```
@@ -45,6 +49,16 @@ class NetworkPlugin : UnveilPlugin {
      */
     val interceptor: NetworkInterceptor = NetworkStoreInterceptor(store)
 
+    /**
+     * Configuration that framework adapters read to apply artificial response delay.
+     *
+     * Pass this to the adapter of your choice during HTTP client setup to allow
+     * delay to be controlled from the panel UI at runtime.
+     */
+    val delayConfig: NetworkDelayConfig = DelayState()
+
+    private val delayState get() = delayConfig as DelayState
+
     override val id: String = "network"
     override val title: String = "Network"
     override val icon: UnveilIcon = UnveilIcon.Emoji("🌐")
@@ -60,6 +74,19 @@ class NetworkPlugin : UnveilPlugin {
 
     @Composable
     override fun Content(scope: UnveilPanelScope) {
-        NetworkPanel(store = store, scope = scope)
+        NetworkPanel(
+            store = store,
+            delayEnabled = delayState.enabled,
+            delaySeconds = delayState.delaySeconds,
+            onDelayEnabledChange = { delayState.enabled = it },
+            onDelaySecondsChange = { delayState.delaySeconds = it },
+            scope = scope
+        )
+    }
+
+    private class DelayState : NetworkDelayConfig {
+        override var enabled: Boolean by mutableStateOf(false)
+        var delaySeconds: Float by mutableFloatStateOf(1f)
+        override val delayMs: Long get() = (delaySeconds * 1000).toLong()
     }
 }

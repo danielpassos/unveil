@@ -73,7 +73,7 @@ It's built around a **plugin system**, every feature is self-contained and optio
 Add only what you need.
 
 ### 🌐 Network
-Inspect every HTTP request and response in real time.
+Inspect every HTTP request and response in real time, delay responses.
 
 ## Installation
 

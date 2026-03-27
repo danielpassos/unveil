@@ -45,7 +45,7 @@ fun App() {
     val httpClient =
         HttpClient {
             install(KtorNetworkPlugin) {
-                interceptor = networkPlugin.interceptor
+                plugin = networkPlugin
             }
         }
 
@@ -69,6 +69,7 @@ private fun AppContent(httpClient: HttpClient) {
         ) {
             Button(
                 onClick = {
+                    uuid = ""
                     coroutineScope.launch {
                         uuid = httpClient.get("https://httpbin.org/uuid").body()
                         httpClient

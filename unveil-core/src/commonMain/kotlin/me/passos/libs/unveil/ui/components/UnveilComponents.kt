@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.Button
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -199,6 +200,60 @@ fun UnveilTextField(
         onValueChange = onValueChange,
         modifier = modifier
     )
+}
+
+/**
+ * Displays a row with a continuous value selector.
+ *
+ * Used to represent a numeric configuration that the user can adjust within a defined range.
+ *
+ * @param label Primary label describing the value being configured.
+ * @param value Current numeric value within [valueRange].
+ * @param valueRange The allowed range for [value].
+ * @param onValueChange Invoked continuously as the user drags the selector.
+ * @param modifier Modifier applied to the row.
+ * @param valueLabel Optional formatted representation of [value] shown as a trailing annotation.
+ */
+@Composable
+fun UnveilSliderRow(
+    label: String,
+    value: Float,
+    valueRange: ClosedFloatingPointRange<Float>,
+    onValueChange: (Float) -> Unit,
+    modifier: Modifier = Modifier,
+    valueLabel: String = ""
+) {
+    Column(
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = label,
+                style = UnveilTheme.typography.body,
+                color = UnveilTheme.colors.onSurface
+            )
+            if (valueLabel.isNotEmpty()) {
+                Text(
+                    text = valueLabel,
+                    style = UnveilTheme.typography.label,
+                    color = UnveilTheme.colors.onSurfaceMuted
+                )
+            }
+        }
+        Slider(
+            value = value,
+            valueRange = valueRange,
+            onValueChange = onValueChange,
+            modifier = Modifier.fillMaxWidth()
+        )
+    }
 }
 
 /**

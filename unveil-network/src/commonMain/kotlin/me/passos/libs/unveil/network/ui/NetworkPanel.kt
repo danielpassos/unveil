@@ -26,18 +26,39 @@ import me.passos.libs.unveil.core.navigation.UnveilPanelScope
 import me.passos.libs.unveil.network.NetworkEntry
 import me.passos.libs.unveil.network.NetworkStore
 import me.passos.libs.unveil.ui.components.UnveilSectionHeader
+import me.passos.libs.unveil.ui.components.UnveilSliderRow
 import me.passos.libs.unveil.ui.components.UnveilText
+import me.passos.libs.unveil.ui.components.UnveilToggleRow
 import me.passos.libs.unveil.ui.components.UnveilValueRow
 import me.passos.libs.unveil.ui.theme.UnveilTheme
 
 @Composable
 internal fun NetworkPanel(
     store: NetworkStore,
+    delayEnabled: Boolean,
+    delaySeconds: Float,
+    onDelayEnabledChange: (Boolean) -> Unit,
+    onDelaySecondsChange: (Float) -> Unit,
     scope: UnveilPanelScope
 ) {
     val entries = store.entries
 
     Column(modifier = Modifier.fillMaxSize()) {
+        UnveilSectionHeader(title = "Delay")
+        UnveilToggleRow(
+            label = "Delay responses",
+            checked = delayEnabled,
+            onCheckedChange = onDelayEnabledChange
+        )
+        if (delayEnabled) {
+            UnveilSliderRow(
+                label = "Duration",
+                value = delaySeconds,
+                valueRange = 0f..10f,
+                onValueChange = onDelaySecondsChange,
+                valueLabel = "${delaySeconds.toInt()} s"
+            )
+        }
         UnveilSectionHeader(
             title = if (entries.isEmpty()) "Requests" else "Requests (${entries.size})",
             actionLabel = if (entries.isNotEmpty()) "Clear" else null,

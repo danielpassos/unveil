@@ -9,7 +9,9 @@ import io.ktor.util.AttributeKey
 import io.ktor.util.date.getTimeMillis
 import io.ktor.utils.io.ByteReadChannel
 import io.ktor.utils.io.readRemaining
+import kotlinx.coroutines.delay
 import kotlinx.io.readByteArray
+import me.passos.libs.unveil.network.NetworkPlugin
 import me.passos.libs.unveil.network.NetworkRequest
 import me.passos.libs.unveil.network.NetworkResponse
 import kotlin.uuid.ExperimentalUuidApi
@@ -31,7 +33,7 @@ private fun newRequestId() = Uuid.random().toString()
  * ```kotlin
  * val httpClient = HttpClient {
  *     install(KtorNetworkPlugin) {
- *         interceptor = networkPlugin.interceptor
+ *         plugin = networkPlugin
  *     }
  * }
  * ```
@@ -48,12 +50,17 @@ private fun newRequestId() = Uuid.random().toString()
  */
 val KtorNetworkPlugin =
     createClientPlugin("UnveilNetwork", ::KtorNetworkPluginConfig) {
-        val networkInterceptor = pluginConfig.interceptor
+        val networkInterceptor = pluginConfig.plugin.interceptor
+        val delayConfig = pluginConfig.plugin.delayConfig
 
         @Suppress("TooGenericExceptionCaught")
         client.plugin(HttpSend).intercept { request ->
             try {
-                execute(request)
+                val call = execute(request)
+                if (delayConfig.enabled) {
+                    delay(delayConfig.delayMs)
+                }
+                call
             } catch (cause: Throwable) {
                 val id = request.attributes.getOrNull(requestIdKey)
                 if (id != null) {
