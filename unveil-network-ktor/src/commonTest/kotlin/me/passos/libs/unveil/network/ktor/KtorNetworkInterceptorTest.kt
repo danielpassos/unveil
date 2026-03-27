@@ -11,11 +11,14 @@ import io.ktor.client.statement.bodyAsText
 import io.ktor.http.Headers
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.headersOf
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import me.passos.libs.unveil.network.NetworkPlugin
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
@@ -232,6 +235,30 @@ class KtorNetworkInterceptorTest {
     // endregion
 
     // region — Delay
+
+    @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
+    @Test
+    fun `the entry is in-flight while the configured delay is pending`() =
+        runTest {
+            networkPlugin.delayEnabled = true
+            networkPlugin.delaySeconds = 1f
+
+            val job = launch { buildClient().get("https://example.com/api/users") }
+            // Run the coroutine until it suspends at delay() — the request has been sent
+            // and the server has responded, but the artificial wait has not yet elapsed.
+            runCurrent()
+
+            assertTrue(
+                entries[0].isInFlight,
+                "Entry should be in-flight while the delay is pending"
+            )
+
+            testScheduler.advanceTimeBy(1001)
+            job.join()
+
+            assertFalse(entries[0].isInFlight)
+            assertNotNull(entries[0].response)
+        }
 
     @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
     @Test

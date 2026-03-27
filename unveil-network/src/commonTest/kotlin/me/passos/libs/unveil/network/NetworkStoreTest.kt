@@ -96,6 +96,49 @@ class NetworkStoreTest {
     }
 
     @Test
+    fun `updateBody sets the body on an entry that already has a response`() {
+        store.record(buildRequest("req-1"))
+        store.complete("req-1", NetworkResponse(200, emptyMap(), null, 100L))
+
+        store.updateBody("req-1", "hello")
+
+        assertEquals("hello", store.entries[0].response?.body)
+    }
+
+    @Test
+    fun `updateBody is a no-op when the entry has no response yet`() {
+        store.record(buildRequest("req-1"))
+
+        store.updateBody("req-1", "hello")
+
+        assertNull(store.entries[0].response)
+    }
+
+    @Test
+    fun `updateBody preserves all other response fields`() {
+        store.record(buildRequest("req-1"))
+        store.complete("req-1", NetworkResponse(201, mapOf("X-Id" to "42"), null, 99L))
+
+        store.updateBody("req-1", "body")
+
+        val response = store.entries[0].response!!
+        assertEquals(201, response.statusCode)
+        assertEquals(mapOf("X-Id" to "42"), response.headers)
+        assertEquals(99L, response.durationMs)
+        assertEquals("body", response.body)
+    }
+
+    @Test
+    fun `updateBody is a no-op when the request id is not found`() {
+        store.record(buildRequest("req-1"))
+        store.complete("req-1", NetworkResponse(200, emptyMap(), null, 100L))
+
+        store.updateBody("unknown", "hello")
+
+        assertNull(store.entries[0].response?.body)
+    }
+
+    @Test
     fun `clear removes all entries from the store`() {
         store.record(buildRequest("req-1"))
         store.record(buildRequest("req-2"))

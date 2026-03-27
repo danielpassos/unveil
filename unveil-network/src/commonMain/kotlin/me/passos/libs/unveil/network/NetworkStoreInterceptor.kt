@@ -10,6 +10,9 @@ internal class NetworkStoreInterceptor(
         response: NetworkResponse
     ) = store.complete(requestId, response)
 
+    override fun onBodyReceived(requestId: String, body: String?) =
+        store.updateBody(requestId, body)
+
     override fun onError(
         requestId: String,
         message: String

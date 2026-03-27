@@ -65,9 +65,39 @@ val KtorNetworkPlugin =
         client.plugin(HttpSend).intercept { request ->
             try {
                 val call = execute(request)
+                // Capture network round-trip time before the artificial delay so that
+                // durationMs reflects actual latency rather than delay + latency.
+                val startTime = request.attributes.getOrNull(startTimeKey) ?: 0L
+                val networkDurationMs = getTimeMillis() - startTime
+
                 if (delayConfig.enabled) {
                     delay(delayConfig.delayMs)
                 }
+
+                // Report the response only after the delay so that the panel entry
+                // stays in the isInFlight state for the full duration of the delay.
+                val id = request.attributes.getOrNull(requestIdKey)
+                if (id != null) {
+                    val statusCode =
+                        if (statusOverrideConfig.enabled) {
+                            statusOverrideConfig.statusCode
+                        } else {
+                            call.response.status.value
+                        }
+                    networkInterceptor.onResponseReceived(
+                        id,
+                        NetworkResponse(
+                            statusCode = statusCode,
+                            headers =
+                                call.response.headers
+                                    .entries()
+                                    .associate { (key, values) -> key to (values.firstOrNull() ?: "") },
+                            body = null,
+                            durationMs = networkDurationMs
+                        )
+                    )
+                }
+
                 if (statusOverrideConfig.enabled) {
                     StatusOverrideCall(call, HttpStatusCode.fromValue(statusOverrideConfig.statusCode))
                 } else {
@@ -112,63 +142,21 @@ val KtorNetworkPlugin =
             )
         }
 
-        onResponse { response ->
-            val id = response.call.attributes.getOrNull(requestIdKey) ?: return@onResponse
-            val startTime = response.call.attributes.getOrNull(startTimeKey) ?: 0L
-            val statusCode =
-                if (statusOverrideConfig.enabled) {
-                    statusOverrideConfig.statusCode
-                } else {
-                    response.status.value
-                }
-
-            networkInterceptor.onResponseReceived(
-                id,
-                NetworkResponse(
-                    statusCode = statusCode,
-                    headers =
-                        response.headers
-                            .entries()
-                            .associate { (key, values) -> key to (values.firstOrNull() ?: "") },
-                    body = null,
-                    durationMs = getTimeMillis() - startTime
-                )
-            )
-        }
-
         // Intercept at the earliest response pipeline phase so the body is always a raw
         // ByteReadChannel — before default transforms and content negotiation run at Parse
-        // and Transform. Bytes are read, forwarded to the interceptor, and a fresh channel
-        // carrying the same bytes is returned so downstream processing is unaffected.
+        // and Transform. Bytes are read, forwarded to the interceptor as a body update, and
+        // a fresh channel carrying the same bytes is returned so downstream processing is
+        // unaffected. This fires only when the caller consumes the body (e.g. bodyAsText()),
+        // which is always after HttpSend.intercept has already reported the response.
         client.responsePipeline.intercept(HttpResponsePipeline.Receive) { (info, body) ->
             if (body !is ByteReadChannel) return@intercept
 
-            val id = context.attributes.getOrNull(requestIdKey)
-            val startTime = context.attributes.getOrNull(startTimeKey)
-
-            if (id == null || startTime == null) return@intercept
+            val id = context.attributes.getOrNull(requestIdKey) ?: return@intercept
 
             val bytes = body.readRemaining().readByteArray()
             val bodyText = bytes.decodeToString().ifEmpty { null }
-            val statusCode =
-                if (statusOverrideConfig.enabled) {
-                    statusOverrideConfig.statusCode
-                } else {
-                    context.response.status.value
-                }
 
-            networkInterceptor.onResponseReceived(
-                id,
-                NetworkResponse(
-                    statusCode = statusCode,
-                    headers =
-                        context.response.headers
-                            .entries()
-                            .associate { (key, values) -> key to (values.firstOrNull() ?: "") },
-                    body = bodyText,
-                    durationMs = getTimeMillis() - startTime
-                )
-            )
+            networkInterceptor.onBodyReceived(id, bodyText)
 
             proceedWith(HttpResponseContainer(info, ByteReadChannel(bytes)))
         }

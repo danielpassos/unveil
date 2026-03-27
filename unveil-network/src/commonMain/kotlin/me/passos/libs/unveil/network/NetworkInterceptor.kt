@@ -20,6 +20,8 @@ interface NetworkInterceptor {
 
     /**
      * Called when a response has been received for a previously dispatched request.
+     * The response body is always null at this point; it is forwarded separately via
+     * [onBodyReceived] once the caller consumes it.
      *
      * @param requestId The [NetworkRequest.id] of the originating request.
      * @param response The received response.
@@ -28,6 +30,21 @@ interface NetworkInterceptor {
         requestId: String,
         response: NetworkResponse
     )
+
+    /**
+     * Called when the response body has been read by the caller.
+     *
+     * This is a separate callback from [onResponseReceived] so that body capture does
+     * not block the response from being recorded, body reading may happen long after
+     * the response headers arrive.
+     *
+     * @param requestId The [NetworkRequest.id] of the originating request.
+     * @param body The decoded response body text, or null if the body was empty.
+     */
+    fun onBodyReceived(
+        requestId: String,
+        body: String?
+    ) {}
 
     /**
      * Called when a request ended with an error instead of a response.

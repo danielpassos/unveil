@@ -41,6 +41,16 @@ class NetworkStore {
         }
     }
 
+    internal fun updateBody(requestId: String, body: String?) {
+        val index = entries.indexOfFirst { it.request.id == requestId }
+        if (index != -1) {
+            val current = entries[index]
+            if (current.response != null) {
+                entries[index] = current.copy(response = current.response.copy(body = body))
+            }
+        }
+    }
+
     internal fun fail(
         requestId: String,
         message: String
