@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "./gradlew ktlintCheck detekt iosSimulatorArm64Test",
+            "timeout": 180,
+            "statusMessage": "Running ktlint, detekt and tests..."
+          }
+        ]
+      }
+    ]
+  }
+}
