@@ -23,9 +23,6 @@ kotlin {
         }
     }
 
-    // linuxX64 is added only in CI to run commonTest on a Linux runner without
-    // requiring macOS. It is not a supported production target of this library.
-    if (System.getenv("CI") == "true") linuxX64()
     iosX64()
     iosArm64()
     iosSimulatorArm64()
