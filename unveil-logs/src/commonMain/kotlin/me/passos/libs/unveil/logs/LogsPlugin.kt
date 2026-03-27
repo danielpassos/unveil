@@ -1,5 +1,6 @@
 package me.passos.libs.unveil.logs
 
+import androidx.annotation.VisibleForTesting
 import androidx.compose.runtime.Composable
 import me.passos.libs.unveil.QuickAction
 import me.passos.libs.unveil.UnveilIcon
@@ -31,7 +32,11 @@ import me.passos.libs.unveil.logs.ui.LogPanel
 class LogsPlugin(
     maxEntries: Int = 100
 ) : UnveilPlugin {
-    internal val store: LogStore = LogStore(maxEntries)
+    /**
+     * Store holding the captured log entries.
+     */
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    val store: LogStore = LogStore(maxEntries)
 
     /**
      * Receiver that framework adapters call to forward log events.

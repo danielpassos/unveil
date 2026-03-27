@@ -1,5 +1,6 @@
 package me.passos.libs.unveil.logs
 
+import androidx.annotation.VisibleForTesting
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 
@@ -15,7 +16,8 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
  * @property maxEntries Maximum number of entries to retain. When exceeded, the oldest
  * entry is removed to make room for the new one. Defaults to 100.
  */
-internal class LogStore(
+@VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
+class LogStore(
     val maxEntries: Int = 100
 ) {
     /**
