@@ -40,6 +40,7 @@ kotlin {
             implementation(libs.ktor.client.core)
 
             implementation(project(":unveil-core"))
+            implementation(project(":unveil-deviceinfo"))
             implementation(project(":unveil-network"))
             implementation(project(":unveil-network-ktor"))
         }

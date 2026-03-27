@@ -12,6 +12,7 @@
 | `unveil-core`         | Drawer shell, plugin registry, `Unveil` API, theming, shared UI components. Required by all consumers. |
 | `unveil-network`      | Network inspection plugin — owns `NetworkInterceptor` interface, `NetworkPlugin`, `NetworkStore`.      |
 | `unveil-network-ktor` | Ktor adapter for `unveil-network` — installs `KtorNetworkPlugin` on an `HttpClient`.                  |
+| `unveil-deviceinfo`   | Device Info plugin — displays app version, build variant, environment, device model, OS, screen, locale, and timezone. Uses `expect/actual` for platform fields. |
 
 ---
 
@@ -30,7 +31,6 @@
 | `unveil-navigation`           | Navigation plugin — owns `NavigationObserver` interface                                                    |
 | `unveil-navigation-decompose` | Decompose adapter for `unveil-navigation`                                                                  |
 | `unveil-navigation-voyager`   | Voyager adapter for `unveil-navigation`                                                                    |
-| `unveil-deviceinfo`           | Device Info plugin — no adapter needed (uses `DeviceInfoProvider` interface with `expect/actual` default)  |
 | `unveil-crash`                | Crash Simulation plugin — no adapter needed                                                                |
 
 ---

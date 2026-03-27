@@ -76,6 +76,10 @@ Add only what you need.
 Inspect every HTTP request and response in real time, delay responses and override status codes.
 All without touching your app code or restarting a server.
 
+### 📱 Device Info
+See app version, build variant, environment, device model, OS version, screen resolution and
+density, locale, and timezone, all in one place.
+
 ## Installation
 
 ```toml

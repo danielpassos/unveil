@@ -19,6 +19,7 @@ import io.ktor.client.HttpClient
 import kotlinx.coroutines.launch
 import me.passos.libs.unveil.Unveil
 import me.passos.libs.unveil.UnveilHost
+import me.passos.libs.unveil.deviceinfo.DeviceInfoPlugin
 import me.passos.libs.unveil.network.NetworkPlugin
 import me.passos.libs.unveil.network.ktor.KtorNetworkPlugin
 import me.passos.libs.unveil.sample.network.NetworkResult
@@ -33,6 +34,14 @@ fun App() {
 
     Unveil.configure {
         register(CustomBoxPlugin())
+        register(
+            DeviceInfoPlugin(
+                appVersionName = "1.0.0",
+                appBuildNumber = "636749",
+                buildVariant = "debug",
+                environment = "staging"
+            )
+        )
         register(networkPlugin)
     }
     Unveil.enable()
