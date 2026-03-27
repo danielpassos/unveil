@@ -41,6 +41,7 @@ kotlin {
             implementation(libs.kermit)
 
             implementation(project(":unveil-core"))
+            implementation(project(":unveil-crash"))
             implementation(project(":unveil-deviceinfo"))
             implementation(project(":unveil-logs"))
             implementation(project(":unveil-logs-kermit"))

@@ -72,6 +72,10 @@ Unveil is a drawer panel that slides in from the right edge of your screen.
 It's built around a **plugin system**, every feature is self-contained and optional.
 Add only what you need.
 
+### 💥 Crash Simulation
+Trigger a crash, an ANR, an unhandled exception, or an OOM on demand.
+No special code required. Essential for testing crash reporting pipelines.
+
 ### 📱 Device Info
 See app version, build variant, environment, device model, OS version, screen resolution and
 density, locale, and timezone, all in one place.
@@ -157,9 +161,11 @@ Unveil.configure {
 Unveil has **zero opinion about your stack**. Every integration point is an interface.
 Use the adapter for your framework or implement the interface yourself.
 
-| Integration      | Interface             | Built-in Adapters                            |
-|------------------|-----------------------|----------------------------------------------|
-| HTTP client      | `NetworkInterceptor`  | Ktor (`unveil-network-ktor`)                 |
+| Integration      | Interface              | Built-in Adapters                                        |
+|------------------|------------------------|----------------------------------------------------------|
+| HTTP client      | `NetworkInterceptor`   | Ktor (`unveil-network-ktor`)                             |
+| Log writer       | `LogSink`              | Kermit (`unveil-logs-kermit`)                            |
+| Navigation stack | `NavigationObserver`   | Jetpack Navigation (`unveil-navigation-jetpack`, Android)|
 
 **Using OkHttp? Timber? LaunchDarkly?** Implement the interface. It's a handful of methods.
 

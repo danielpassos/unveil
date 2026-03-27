@@ -41,7 +41,10 @@ class NetworkStore {
         }
     }
 
-    internal fun updateBody(requestId: String, body: String?) {
+    internal fun updateBody(
+        requestId: String,
+        body: String?
+    ) {
         val index = entries.indexOfFirst { it.request.id == requestId }
         if (index != -1) {
             val current = entries[index]

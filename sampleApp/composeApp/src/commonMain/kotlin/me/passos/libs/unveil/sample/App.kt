@@ -20,6 +20,7 @@ import io.ktor.client.HttpClient
 import kotlinx.coroutines.launch
 import me.passos.libs.unveil.Unveil
 import me.passos.libs.unveil.UnveilHost
+import me.passos.libs.unveil.crash.CrashPlugin
 import me.passos.libs.unveil.deviceinfo.DeviceInfoPlugin
 import me.passos.libs.unveil.logs.LogsPlugin
 import me.passos.libs.unveil.logs.kermit.KermitLogSink
@@ -38,6 +39,7 @@ fun App() {
 
     Unveil.configure {
         register(CustomBoxPlugin())
+        register(CrashPlugin())
         register(
             DeviceInfoPlugin(
                 appVersionName = "1.0.0",
@@ -46,7 +48,6 @@ fun App() {
                 environment = "staging"
             )
         )
-
         register(logsPlugin)
         register(networkPlugin)
     }
