@@ -72,17 +72,17 @@ Unveil is a drawer panel that slides in from the right edge of your screen.
 It's built around a **plugin system**, every feature is self-contained and optional.
 Add only what you need.
 
-### 🌐 Network
-Inspect every HTTP request and response in real time, delay responses and override status codes.
-All without touching your app code or restarting a server.
+### 📱 Device Info
+See app version, build variant, environment, device model, OS version, screen resolution and
+density, locale, and timezone, all in one place.
 
 ### 📋 Logs
 Stream live log events from your app with filtering by level (V/D/I/W/E/A) and free-text
 search across tag and message. Configurable buffer size. Zero changes to existing log call sites.
 
-### 📱 Device Info
-See app version, build variant, environment, device model, OS version, screen resolution and
-density, locale, and timezone, all in one place.
+### 🌐 Network
+Inspect every HTTP request and response in real time, delay responses and override status codes.
+All without touching your app code or restarting a server.
 
 ## Installation
 
