@@ -12,6 +12,14 @@ comments:
     OutdatedDocumentation:
         active: true
 
+complexity:
+    LongMethod:
+        ignoreAnnotated:
+            - 'Composable'
+    LongParameterList:
+        ignoreAnnotated:
+            - 'Composable'
+
 naming:
     FunctionNaming:
         ignoreAnnotated:

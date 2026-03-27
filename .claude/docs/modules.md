@@ -13,6 +13,8 @@
 | `unveil-network`      | Network inspection plugin — owns `NetworkInterceptor` interface, `NetworkPlugin`, `NetworkStore`.      |
 | `unveil-network-ktor` | Ktor adapter for `unveil-network` — installs `KtorNetworkPlugin` on an `HttpClient`.                  |
 | `unveil-deviceinfo`   | Device Info plugin — displays app version, build variant, environment, device model, OS, screen, locale, and timezone. Uses `expect/actual` for platform fields. |
+| `unveil-logs`         | Log Viewer plugin — owns `LogSink` interface, `LogsPlugin`, `LogStore`. Live filtering by level and tag/message search.                                         |
+| `unveil-logs-kermit`  | Kermit adapter for `unveil-logs` — installs `KermitLogSink` as a Kermit `LogWriter`.                                                                           |
 
 ---
 
@@ -20,8 +22,6 @@
 
 | Module                        | Role                                                                                                       |
 |-------------------------------|------------------------------------------------------------------------------------------------------------|
-| `unveil-logs`                 | Log Viewer plugin — owns `LogSink` interface                                                               |
-| `unveil-logs-kermit`          | Kermit adapter for `unveil-logs`                                                                           |
 | `unveil-featureflags`         | Feature Flags plugin — owns `FeatureFlagProvider` interface                                                |
 | `unveil-featureflags-firebase`| Firebase Remote Config adapter for `unveil-featureflags`                                                   |
 | `unveil-state`                | State Inspector plugin — owns `StateRegistration`                                                          |

@@ -76,6 +76,10 @@ Add only what you need.
 Inspect every HTTP request and response in real time, delay responses and override status codes.
 All without touching your app code or restarting a server.
 
+### 📋 Logs
+Stream live log events from your app with filtering by level (V/D/I/W/E/A) and free-text
+search across tag and message. Configurable buffer size. Zero changes to existing log call sites.
+
 ### 📱 Device Info
 See app version, build variant, environment, device model, OS version, screen resolution and
 density, locale, and timezone, all in one place.

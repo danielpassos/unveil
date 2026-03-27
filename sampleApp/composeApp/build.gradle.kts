@@ -38,9 +38,12 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
 
             implementation(libs.ktor.client.core)
+            implementation(libs.kermit)
 
             implementation(project(":unveil-core"))
             implementation(project(":unveil-deviceinfo"))
+            implementation(project(":unveil-logs"))
+            implementation(project(":unveil-logs-kermit"))
             implementation(project(":unveil-network"))
             implementation(project(":unveil-network-ktor"))
         }

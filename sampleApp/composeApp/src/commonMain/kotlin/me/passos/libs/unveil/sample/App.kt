@@ -15,11 +15,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import co.touchlab.kermit.Logger
 import io.ktor.client.HttpClient
 import kotlinx.coroutines.launch
 import me.passos.libs.unveil.Unveil
 import me.passos.libs.unveil.UnveilHost
 import me.passos.libs.unveil.deviceinfo.DeviceInfoPlugin
+import me.passos.libs.unveil.logs.LogsPlugin
+import me.passos.libs.unveil.logs.kermit.KermitLogSink
 import me.passos.libs.unveil.network.NetworkPlugin
 import me.passos.libs.unveil.network.ktor.KtorNetworkPlugin
 import me.passos.libs.unveil.sample.network.NetworkResult
@@ -30,6 +33,7 @@ import me.passos.libs.unveil.sample.network.generateUuid
  */
 @Composable
 fun App() {
+    val logsPlugin = LogsPlugin(maxEntries = 10)
     val networkPlugin = NetworkPlugin()
 
     Unveil.configure {
@@ -42,11 +46,17 @@ fun App() {
                 environment = "staging"
             )
         )
+
+        register(logsPlugin)
         register(networkPlugin)
     }
     Unveil.enable()
 
-    // -- Http
+    // -- Kermit --------------------------------------------------------------
+
+    Logger.addLogWriter(KermitLogSink(logsPlugin))
+
+    // -- Ktor ----------------------------------------------------------------
 
     val httpClient =
         HttpClient {
@@ -75,19 +85,24 @@ private fun AppContent(httpClient: HttpClient) {
         ) {
             Button(
                 onClick = {
+                    Logger.i { "UUID requested" }
+
                     httpResult = "Loading..."
                     coroutineScope.launch {
                         httpResult =
                             when (val result = generateUuid(httpClient)) {
                                 is NetworkResult.Success -> {
+                                    Logger.i(tag = "uuid") { "UUID received: ${result.data}" }
                                     result.data
                                 }
 
                                 is NetworkResult.HttpError -> {
+                                    Logger.e(tag = "uuid") { "Http error: ${result.status}" }
                                     "HTTP error: ${result.status}"
                                 }
 
                                 is NetworkResult.NetworkError -> {
+                                    Logger.e(tag = "uuid") { "Network error" }
                                     "Network error: ${result.throwable.message}"
                                 }
                             }
