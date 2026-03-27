@@ -1,5 +1,6 @@
 package me.passos.libs.unveil.logs
 
+import me.passos.libs.unveil.core.platform.currentTimeMs
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
