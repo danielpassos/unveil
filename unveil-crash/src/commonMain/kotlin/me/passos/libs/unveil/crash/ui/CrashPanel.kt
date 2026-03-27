@@ -21,9 +21,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import me.passos.libs.unveil.crash.CrashAction
+import me.passos.libs.unveil.crash.resources.Res
+import me.passos.libs.unveil.crash.resources.crash_button_cancel
+import me.passos.libs.unveil.crash.resources.crash_button_confirm
+import me.passos.libs.unveil.crash.resources.crash_button_trigger
+import me.passos.libs.unveil.crash.resources.crash_dialog_message
+import me.passos.libs.unveil.crash.resources.crash_section_header
 import me.passos.libs.unveil.ui.components.UnveilButton
 import me.passos.libs.unveil.ui.components.UnveilSectionHeader
 import me.passos.libs.unveil.ui.theme.UnveilTheme
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun CrashPanel(actions: List<CrashAction>) {
@@ -35,7 +42,7 @@ internal fun CrashPanel(actions: List<CrashAction>) {
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
     ) {
-        UnveilSectionHeader(title = "Crash Simulator")
+        UnveilSectionHeader(title = stringResource(Res.string.crash_section_header))
 
         actions.forEach { action ->
             CrashActionRow(
@@ -50,15 +57,15 @@ internal fun CrashPanel(actions: List<CrashAction>) {
         AlertDialog(
             onDismissRequest = { pendingAction = null },
             title = { Text(current.label) },
-            text = { Text("This will crash the app immediately. Proceed?") },
+            text = { Text(stringResource(Res.string.crash_dialog_message)) },
             confirmButton = {
                 TextButton(onClick = { current.trigger() }) {
-                    Text(text = "Crash", color = UnveilTheme.colors.error)
+                    Text(text = stringResource(Res.string.crash_button_confirm), color = UnveilTheme.colors.error)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { pendingAction = null }) {
-                    Text("Cancel")
+                    Text(stringResource(Res.string.crash_button_cancel))
                 }
             }
         )
@@ -91,7 +98,7 @@ private fun CrashActionRow(
             )
         }
         UnveilButton(
-            label = "Trigger",
+            label = stringResource(Res.string.crash_button_trigger),
             onClick = onTrigger
         )
     }

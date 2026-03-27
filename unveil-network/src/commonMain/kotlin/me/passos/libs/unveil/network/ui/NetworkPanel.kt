@@ -29,6 +29,31 @@ import androidx.compose.ui.unit.dp
 import me.passos.libs.unveil.core.navigation.UnveilPanelScope
 import me.passos.libs.unveil.network.NetworkEntry
 import me.passos.libs.unveil.network.NetworkStore
+import me.passos.libs.unveil.network.resources.Res
+import me.passos.libs.unveil.network.resources.network_action_clear
+import me.passos.libs.unveil.network.resources.network_detail_duration_ms
+import me.passos.libs.unveil.network.resources.network_detail_label_duration
+import me.passos.libs.unveil.network.resources.network_detail_label_method
+import me.passos.libs.unveil.network.resources.network_detail_label_status
+import me.passos.libs.unveil.network.resources.network_detail_label_url
+import me.passos.libs.unveil.network.resources.network_detail_section_error
+import me.passos.libs.unveil.network.resources.network_detail_section_request
+import me.passos.libs.unveil.network.resources.network_detail_section_request_body
+import me.passos.libs.unveil.network.resources.network_detail_section_request_headers
+import me.passos.libs.unveil.network.resources.network_detail_section_response
+import me.passos.libs.unveil.network.resources.network_detail_section_response_body
+import me.passos.libs.unveil.network.resources.network_detail_section_response_headers
+import me.passos.libs.unveil.network.resources.network_duration_seconds
+import me.passos.libs.unveil.network.resources.network_empty
+import me.passos.libs.unveil.network.resources.network_label_duration
+import me.passos.libs.unveil.network.resources.network_section_delay
+import me.passos.libs.unveil.network.resources.network_section_requests
+import me.passos.libs.unveil.network.resources.network_section_requests_count
+import me.passos.libs.unveil.network.resources.network_section_status_override
+import me.passos.libs.unveil.network.resources.network_status_error
+import me.passos.libs.unveil.network.resources.network_status_in_flight
+import me.passos.libs.unveil.network.resources.network_toggle_delay_responses
+import me.passos.libs.unveil.network.resources.network_toggle_override_status
 import me.passos.libs.unveil.ui.components.UnveilSectionHeader
 import me.passos.libs.unveil.ui.components.UnveilSliderRow
 import me.passos.libs.unveil.ui.components.UnveilText
@@ -36,6 +61,7 @@ import me.passos.libs.unveil.ui.components.UnveilTextField
 import me.passos.libs.unveil.ui.components.UnveilToggleRow
 import me.passos.libs.unveil.ui.components.UnveilValueRow
 import me.passos.libs.unveil.ui.theme.UnveilTheme
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun NetworkPanel(
@@ -53,24 +79,24 @@ internal fun NetworkPanel(
     val entries = store.entries
 
     Column(modifier = Modifier.fillMaxSize()) {
-        UnveilSectionHeader(title = "Delay")
+        UnveilSectionHeader(title = stringResource(Res.string.network_section_delay))
         UnveilToggleRow(
-            label = "Delay responses",
+            label = stringResource(Res.string.network_toggle_delay_responses),
             checked = delayEnabled,
             onCheckedChange = onDelayEnabledChange
         )
         if (delayEnabled) {
             UnveilSliderRow(
-                label = "Duration",
+                label = stringResource(Res.string.network_label_duration),
                 value = delaySeconds,
                 valueRange = 0f..10f,
                 onValueChange = onDelaySecondsChange,
-                valueLabel = "${delaySeconds.toInt()} s"
+                valueLabel = stringResource(Res.string.network_duration_seconds, delaySeconds.toInt())
             )
         }
-        UnveilSectionHeader(title = "Status Override")
+        UnveilSectionHeader(title = stringResource(Res.string.network_section_status_override))
         UnveilToggleRow(
-            label = "Override status code",
+            label = stringResource(Res.string.network_toggle_override_status),
             checked = statusOverrideEnabled,
             onCheckedChange = onStatusOverrideEnabledChange
         )
@@ -91,8 +117,15 @@ internal fun NetworkPanel(
             )
         }
         UnveilSectionHeader(
-            title = if (entries.isEmpty()) "Requests" else "Requests (${entries.size})",
-            actionLabel = if (entries.isNotEmpty()) "Clear" else null,
+            title =
+                if (entries.isEmpty()) {
+                    stringResource(
+                        Res.string.network_section_requests
+                    )
+                } else {
+                    stringResource(Res.string.network_section_requests_count, entries.size)
+                },
+            actionLabel = if (entries.isNotEmpty()) stringResource(Res.string.network_action_clear) else null,
             onAction = if (entries.isNotEmpty()) ({ store.clear() }) else null
         )
 
@@ -101,7 +134,7 @@ internal fun NetworkPanel(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
-                UnveilText(text = "No requests captured yet")
+                UnveilText(text = stringResource(Res.string.network_empty))
             }
         } else {
             LazyColumn(modifier = Modifier.fillMaxSize()) {
@@ -177,7 +210,7 @@ private fun StatusLabel(entry: NetworkEntry) {
     val (text, color) =
         when {
             entry.error != null -> {
-                "ERR" to UnveilTheme.colors.error
+                stringResource(Res.string.network_status_error) to UnveilTheme.colors.error
             }
 
             entry.response != null -> {
@@ -207,19 +240,19 @@ private fun NetworkEntryDetail(entry: NetworkEntry) {
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
     ) {
-        UnveilSectionHeader(title = "Request")
-        UnveilValueRow(label = "Method", value = entry.request.method)
-        UnveilValueRow(label = "URL", value = entry.request.url)
+        UnveilSectionHeader(title = stringResource(Res.string.network_detail_section_request))
+        UnveilValueRow(label = stringResource(Res.string.network_detail_label_method), value = entry.request.method)
+        UnveilValueRow(label = stringResource(Res.string.network_detail_label_url), value = entry.request.url)
 
         if (entry.request.headers.isNotEmpty()) {
-            UnveilSectionHeader(title = "Request Headers")
+            UnveilSectionHeader(title = stringResource(Res.string.network_detail_section_request_headers))
             entry.request.headers.forEach { (key, value) ->
                 UnveilValueRow(label = key, value = value)
             }
         }
 
         if (entry.request.body != null) {
-            UnveilSectionHeader(title = "Request Body")
+            UnveilSectionHeader(title = stringResource(Res.string.network_detail_section_request_body))
             UnveilText(
                 text = entry.request.body,
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
@@ -228,19 +261,25 @@ private fun NetworkEntryDetail(entry: NetworkEntry) {
 
         when {
             entry.response != null -> {
-                UnveilSectionHeader(title = "Response")
-                UnveilValueRow(label = "Status", value = entry.response.statusCode.toString())
-                UnveilValueRow(label = "Duration", value = "${entry.response.durationMs} ms")
+                UnveilSectionHeader(title = stringResource(Res.string.network_detail_section_response))
+                UnveilValueRow(
+                    label = stringResource(Res.string.network_detail_label_status),
+                    value = entry.response.statusCode.toString()
+                )
+                UnveilValueRow(
+                    label = stringResource(Res.string.network_detail_label_duration),
+                    value = stringResource(Res.string.network_detail_duration_ms, entry.response.durationMs.toInt())
+                )
 
                 if (entry.response.headers.isNotEmpty()) {
-                    UnveilSectionHeader(title = "Response Headers")
+                    UnveilSectionHeader(title = stringResource(Res.string.network_detail_section_response_headers))
                     entry.response.headers.forEach { (key, value) ->
                         UnveilValueRow(label = key, value = value)
                     }
                 }
 
                 if (entry.response.body != null) {
-                    UnveilSectionHeader(title = "Response Body")
+                    UnveilSectionHeader(title = stringResource(Res.string.network_detail_section_response_body))
                     UnveilText(
                         text = entry.response.body,
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
@@ -249,7 +288,7 @@ private fun NetworkEntryDetail(entry: NetworkEntry) {
             }
 
             entry.error != null -> {
-                UnveilSectionHeader(title = "Error")
+                UnveilSectionHeader(title = stringResource(Res.string.network_detail_section_error))
                 UnveilText(
                     text = entry.error,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
@@ -257,9 +296,9 @@ private fun NetworkEntryDetail(entry: NetworkEntry) {
             }
 
             else -> {
-                UnveilSectionHeader(title = "Response")
+                UnveilSectionHeader(title = stringResource(Res.string.network_detail_section_response))
                 UnveilText(
-                    text = "Request in flight…",
+                    text = stringResource(Res.string.network_status_in_flight),
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                 )
             }

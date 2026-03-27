@@ -32,11 +32,26 @@ import me.passos.libs.unveil.core.navigation.UnveilPanelScope
 import me.passos.libs.unveil.logs.LogEntry
 import me.passos.libs.unveil.logs.LogLevel
 import me.passos.libs.unveil.logs.LogStore
+import me.passos.libs.unveil.logs.resources.Res
+import me.passos.libs.unveil.logs.resources.logs_action_clear
+import me.passos.libs.unveil.logs.resources.logs_detail_label_level
+import me.passos.libs.unveil.logs.resources.logs_detail_label_tag
+import me.passos.libs.unveil.logs.resources.logs_detail_label_time
+import me.passos.libs.unveil.logs.resources.logs_detail_section_error
+import me.passos.libs.unveil.logs.resources.logs_detail_section_log
+import me.passos.libs.unveil.logs.resources.logs_detail_section_message
+import me.passos.libs.unveil.logs.resources.logs_empty
+import me.passos.libs.unveil.logs.resources.logs_empty_filtered
+import me.passos.libs.unveil.logs.resources.logs_header
+import me.passos.libs.unveil.logs.resources.logs_header_count
+import me.passos.libs.unveil.logs.resources.logs_header_filtered
+import me.passos.libs.unveil.logs.resources.logs_search_placeholder
 import me.passos.libs.unveil.ui.components.UnveilSectionHeader
 import me.passos.libs.unveil.ui.components.UnveilText
 import me.passos.libs.unveil.ui.components.UnveilTextField
 import me.passos.libs.unveil.ui.components.UnveilValueRow
 import me.passos.libs.unveil.ui.theme.UnveilTheme
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun LogPanel(
@@ -68,7 +83,7 @@ internal fun LogPanel(
         UnveilTextField(
             value = query,
             onValueChange = { query = it },
-            placeholder = "Search tag or message…",
+            placeholder = stringResource(Res.string.logs_search_placeholder),
             modifier =
                 Modifier
                     .fillMaxWidth()
@@ -77,11 +92,11 @@ internal fun LogPanel(
         UnveilSectionHeader(
             title =
                 when {
-                    allEntries.isEmpty() -> "Logs"
-                    filtered.size == allEntries.size -> "Logs (${allEntries.size})"
-                    else -> "Logs (${filtered.size} of ${allEntries.size})"
+                    allEntries.isEmpty() -> stringResource(Res.string.logs_header)
+                    filtered.size == allEntries.size -> stringResource(Res.string.logs_header_count, allEntries.size)
+                    else -> stringResource(Res.string.logs_header_filtered, filtered.size, allEntries.size)
                 },
-            actionLabel = if (allEntries.isNotEmpty()) "Clear" else null,
+            actionLabel = if (allEntries.isNotEmpty()) stringResource(Res.string.logs_action_clear) else null,
             onAction = if (allEntries.isNotEmpty()) ({ store.clear() }) else null
         )
 
@@ -93,9 +108,9 @@ internal fun LogPanel(
                 UnveilText(
                     text =
                         if (allEntries.isEmpty()) {
-                            "No logs captured yet"
+                            stringResource(Res.string.logs_empty)
                         } else {
-                            "No logs match the current filter"
+                            stringResource(Res.string.logs_empty_filtered)
                         }
                 )
             }
@@ -222,19 +237,22 @@ private fun LogEntryDetail(entry: LogEntry) {
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
     ) {
-        UnveilSectionHeader(title = "Log")
-        UnveilValueRow(label = "Level", value = entry.level.name)
-        UnveilValueRow(label = "Tag", value = entry.tag)
-        UnveilValueRow(label = "Time", value = entry.timestamp.formatTimestamp())
+        UnveilSectionHeader(title = stringResource(Res.string.logs_detail_section_log))
+        UnveilValueRow(label = stringResource(Res.string.logs_detail_label_level), value = entry.level.name)
+        UnveilValueRow(label = stringResource(Res.string.logs_detail_label_tag), value = entry.tag)
+        UnveilValueRow(
+            label = stringResource(Res.string.logs_detail_label_time),
+            value = entry.timestamp.formatTimestamp()
+        )
 
-        UnveilSectionHeader(title = "Message")
+        UnveilSectionHeader(title = stringResource(Res.string.logs_detail_section_message))
         UnveilText(
             text = entry.message,
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
         )
 
         if (entry.error != null) {
-            UnveilSectionHeader(title = "Error")
+            UnveilSectionHeader(title = stringResource(Res.string.logs_detail_section_error))
             UnveilText(
                 text = entry.error,
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)

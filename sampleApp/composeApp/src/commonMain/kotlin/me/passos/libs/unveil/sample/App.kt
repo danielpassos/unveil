@@ -42,6 +42,14 @@ import me.passos.libs.unveil.network.NetworkPlugin
 import me.passos.libs.unveil.network.ktor.KtorNetworkPlugin
 import me.passos.libs.unveil.sample.network.NetworkResult
 import me.passos.libs.unveil.sample.network.generateUuid
+import me.passos.libs.unveil.sample.resources.Res
+import me.passos.libs.unveil.sample.resources.sample_button_http_request
+import me.passos.libs.unveil.sample.resources.sample_button_navigate
+import me.passos.libs.unveil.sample.resources.sample_http_error
+import me.passos.libs.unveil.sample.resources.sample_loading
+import me.passos.libs.unveil.sample.resources.sample_network_error
+import org.jetbrains.compose.resources.getString
+import org.jetbrains.compose.resources.stringResource
 
 /**
  * The root composable of the app.
@@ -138,6 +146,8 @@ private fun AppContent(
     ) {
         val coroutineScope = rememberCoroutineScope()
         var httpResult by remember { mutableStateOf("") }
+        val loadingText = stringResource(Res.string.sample_loading)
+        val httpRequestText = stringResource(Res.string.sample_button_http_request)
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -148,7 +158,7 @@ private fun AppContent(
                 onClick = {
                     Logger.i { "UUID requested" }
 
-                    httpResult = "Loading..."
+                    httpResult = loadingText
                     coroutineScope.launch {
                         httpResult =
                             when (val result = generateUuid(httpClient)) {
@@ -159,18 +169,18 @@ private fun AppContent(
 
                                 is NetworkResult.HttpError -> {
                                     Logger.e(tag = "uuid") { "Http error: ${result.status}" }
-                                    "HTTP error: ${result.status}"
+                                    getString(Res.string.sample_http_error, result.status)
                                 }
 
                                 is NetworkResult.NetworkError -> {
                                     Logger.e(tag = "uuid") { "Network error" }
-                                    "Network error: ${result.throwable.message}"
+                                    getString(Res.string.sample_network_error, result.throwable.message.orEmpty())
                                 }
                             }
                     }
                 }
             ) {
-                Text("HTTP Request")
+                Text(httpRequestText)
             }
 
             Box(
@@ -191,7 +201,7 @@ private fun AppContent(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = onNavigate
             ) {
-                Text("Navigate")
+                Text(stringResource(Res.string.sample_button_navigate))
             }
         }
     }
@@ -218,7 +228,7 @@ private fun Screen(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = onNavigate
             ) {
-                Text("Navigate")
+                Text(stringResource(Res.string.sample_button_navigate))
             }
         }
     }

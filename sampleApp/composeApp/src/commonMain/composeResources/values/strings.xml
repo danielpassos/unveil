@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sample_button_http_request">HTTP Request</string>
+    <string name="sample_loading">Loading…</string>
+    <string name="sample_button_navigate">Navigate</string>
+    <string name="sample_http_error">HTTP error: %1$d</string>
+    <string name="sample_network_error">Network error: %1$s</string>
+</resources>

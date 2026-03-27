@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="network_section_delay">Delay</string>
+    <string name="network_toggle_delay_responses">Delay responses</string>
+    <string name="network_label_duration">Duration</string>
+    <string name="network_duration_seconds">%1$d s</string>
+    <string name="network_section_status_override">Status Override</string>
+    <string name="network_toggle_override_status">Override status code</string>
+    <string name="network_section_requests">Requests</string>
+    <string name="network_section_requests_count">Requests (%1$d)</string>
+    <string name="network_action_clear">Clear</string>
+    <string name="network_empty">No requests captured yet</string>
+    <string name="network_status_error">ERR</string>
+    <string name="network_status_in_flight">Request in flight…</string>
+    <string name="network_detail_section_request">Request</string>
+    <string name="network_detail_label_method">Method</string>
+    <string name="network_detail_label_url">URL</string>
+    <string name="network_detail_section_request_headers">Request Headers</string>
+    <string name="network_detail_section_request_body">Request Body</string>
+    <string name="network_detail_section_response">Response</string>
+    <string name="network_detail_label_status">Status</string>
+    <string name="network_detail_label_duration">Duration</string>
+    <string name="network_detail_duration_ms">%1$d ms</string>
+    <string name="network_detail_section_response_headers">Response Headers</string>
+    <string name="network_detail_section_response_body">Response Body</string>
+    <string name="network_detail_section_error">Error</string>
+</resources>

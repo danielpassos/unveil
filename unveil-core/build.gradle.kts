@@ -5,6 +5,10 @@ plugins {
     id("unveil-publish")
 }
 
+compose.resources {
+    packageOfResClass = "me.passos.libs.unveil.resources"
+}
+
 kotlin {
     androidLibrary {
         namespace = "org.jetbrains.kotlinx.multiplatform.library.template"

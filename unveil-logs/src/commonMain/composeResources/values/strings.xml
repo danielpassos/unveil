@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="logs_search_placeholder">Search tag or message…</string>
+    <string name="logs_header">Logs</string>
+    <string name="logs_header_count">Logs (%1$d)</string>
+    <string name="logs_header_filtered">Logs (%1$d of %2$d)</string>
+    <string name="logs_action_clear">Clear</string>
+    <string name="logs_empty">No logs captured yet</string>
+    <string name="logs_empty_filtered">No logs match the current filter</string>
+    <string name="logs_detail_section_log">Log</string>
+    <string name="logs_detail_label_level">Level</string>
+    <string name="logs_detail_label_tag">Tag</string>
+    <string name="logs_detail_label_time">Time</string>
+    <string name="logs_detail_section_message">Message</string>
+    <string name="logs_detail_section_error">Error</string>
+</resources>

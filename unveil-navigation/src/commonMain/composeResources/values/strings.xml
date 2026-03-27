@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="navigation_section_stack">Current Stack (%1$d)</string>
+    <string name="navigation_empty">No navigation recorded yet.</string>
+    <string name="navigation_section_history">History</string>
+</resources>

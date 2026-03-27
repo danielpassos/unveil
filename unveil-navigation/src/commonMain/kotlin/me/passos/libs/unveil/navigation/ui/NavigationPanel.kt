@@ -17,8 +17,13 @@ import me.passos.libs.unveil.navigation.NavigationEntry
 import me.passos.libs.unveil.navigation.NavigationStore
 import me.passos.libs.unveil.navigation.StackEntry
 import me.passos.libs.unveil.navigation.displayRoute
+import me.passos.libs.unveil.navigation.resources.Res
+import me.passos.libs.unveil.navigation.resources.navigation_empty
+import me.passos.libs.unveil.navigation.resources.navigation_section_history
+import me.passos.libs.unveil.navigation.resources.navigation_section_stack
 import me.passos.libs.unveil.ui.components.UnveilSectionHeader
 import me.passos.libs.unveil.ui.theme.UnveilTheme
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun NavigationPanel(store: NavigationStore) {
@@ -28,11 +33,11 @@ internal fun NavigationPanel(store: NavigationStore) {
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
     ) {
-        UnveilSectionHeader(title = "Current Stack (${store.stack.size})")
+        UnveilSectionHeader(title = stringResource(Res.string.navigation_section_stack, store.stack.size))
 
         if (store.stack.isEmpty()) {
             Text(
-                text = "No navigation recorded yet.",
+                text = stringResource(Res.string.navigation_empty),
                 style = UnveilTheme.typography.body,
                 color = UnveilTheme.colors.onSurfaceMuted,
                 modifier =
@@ -49,11 +54,11 @@ internal fun NavigationPanel(store: NavigationStore) {
             }
         }
 
-        UnveilSectionHeader(title = "History")
+        UnveilSectionHeader(title = stringResource(Res.string.navigation_section_history))
 
         if (store.history.isEmpty()) {
             Text(
-                text = "No navigation recorded yet.",
+                text = stringResource(Res.string.navigation_empty),
                 style = UnveilTheme.typography.body,
                 color = UnveilTheme.colors.onSurfaceMuted,
                 modifier =

@@ -32,7 +32,11 @@ import androidx.compose.ui.unit.dp
 import me.passos.libs.unveil.QuickAction
 import me.passos.libs.unveil.UnveilIcon
 import me.passos.libs.unveil.UnveilPlugin
+import me.passos.libs.unveil.resources.Res
+import me.passos.libs.unveil.resources.unveil_subtitle
+import me.passos.libs.unveil.resources.unveil_title
 import me.passos.libs.unveil.ui.theme.UnveilTheme
+import org.jetbrains.compose.resources.stringResource
 
 /**
  * Displays the list of available plugins in Unveil.
@@ -92,12 +96,12 @@ private fun PluginListHeader(modifier: Modifier = Modifier) {
         modifier = modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 20.dp)
     ) {
         BasicText(
-            text = "Unveil",
+            text = stringResource(Res.string.unveil_title),
             style = UnveilTheme.typography.drawerTitle.copy(color = UnveilTheme.colors.onSurface)
         )
         Spacer(Modifier.height(2.dp))
         BasicText(
-            text = "Developer Tools",
+            text = stringResource(Res.string.unveil_subtitle),
             style = UnveilTheme.typography.label.copy(color = UnveilTheme.colors.onSurfaceMuted)
         )
     }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="deviceinfo_section_app">App</string>
+    <string name="deviceinfo_label_version">Version</string>
+    <string name="deviceinfo_label_build">Build</string>
+    <string name="deviceinfo_label_variant">Variant</string>
+    <string name="deviceinfo_label_environment">Environment</string>
+    <string name="deviceinfo_section_device">Device</string>
+    <string name="deviceinfo_label_model">Model</string>
+    <string name="deviceinfo_label_manufacturer">Manufacturer</string>
+    <string name="deviceinfo_label_os_version">OS Version</string>
+    <string name="deviceinfo_section_display">Display</string>
+    <string name="deviceinfo_label_resolution">Resolution</string>
+    <string name="deviceinfo_label_density">Density</string>
+    <string name="deviceinfo_section_locale">Locale</string>
+    <string name="deviceinfo_label_locale">Locale</string>
+    <string name="deviceinfo_label_timezone">Timezone</string>
+</resources>

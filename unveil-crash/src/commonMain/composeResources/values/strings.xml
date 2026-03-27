@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="crash_section_header">Crash Simulator</string>
+    <string name="crash_dialog_message">This will crash the app immediately. Proceed?</string>
+    <string name="crash_button_confirm">Crash</string>
+    <string name="crash_button_cancel">Cancel</string>
+    <string name="crash_button_trigger">Trigger</string>
+</resources>

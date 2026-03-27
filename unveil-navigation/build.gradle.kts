@@ -5,6 +5,10 @@ plugins {
     id("unveil-publish")
 }
 
+compose.resources {
+    packageOfResClass = "me.passos.libs.unveil.navigation.resources"
+}
+
 kotlin {
     androidLibrary {
         namespace = "me.passos.libs.unveil.navigation"
