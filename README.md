@@ -104,8 +104,14 @@ unveil = "current_version"
 unveil-core = { module = "me.passos.libs.unveil:unveil-core", version.ref = "unveil" }
 
 # Features — add only what you need
-unveil-network      = { module = "me.passos.libs.unveil:unveil-network",  version.ref = "unveil" }
-unveil-network-ktor = { module = "io.github.yourname:unveil-network-log", version.ref = "unveil" }
+unveil-crash              = { module = "me.passos.libs.unveil:unveil-crash",              version.ref = "unveil" }
+unveil-deviceinfo         = { module = "me.passos.libs.unveil:unveil-deviceinfo",         version.ref = "unveil" }
+unveil-logs               = { module = "me.passos.libs.unveil:unveil-logs",               version.ref = "unveil" }
+unveil-logs-kermit        = { module = "me.passos.libs.unveil:unveil-logs-kermit",        version.ref = "unveil" }
+unveil-navigation         = { module = "me.passos.libs.unveil:unveil-navigation",         version.ref = "unveil" }
+unveil-navigation-compose = { module = "me.passos.libs.unveil:unveil-navigation-compose", version.ref = "unveil" }
+unveil-network            = { module = "me.passos.libs.unveil:unveil-network",            version.ref = "unveil" }
+unveil-network-ktor       = { module = "me.passos.libs.unveil:unveil-network-ktor",       version.ref = "unveil" }
 ```
 
 ```kotlin
@@ -114,6 +120,12 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(libs.unveil.core)
+            implementation(libs.unveil.crash)
+            implementation(libs.unveil.deviceinfo)
+            implementation(libs.unveil.logs)
+            implementation(libs.unveil.logs.kermit)
+            implementation(libs.unveil.navigation)
+            implementation(libs.unveil.navigation.compose)
             implementation(libs.unveil.network)
             implementation(libs.unveil.network-ktor)
         }
@@ -165,11 +177,11 @@ Unveil.configure {
 Unveil has **zero opinion about your stack**. Every integration point is an interface.
 Use the adapter for your framework or implement the interface yourself.
 
-| Integration      | Interface              | Built-in Adapters                                        |
-|------------------|------------------------|----------------------------------------------------------|
-| HTTP client      | `NetworkInterceptor`   | Ktor (`unveil-network-ktor`)                             |
-| Log writer       | `LogSink`              | Kermit (`unveil-logs-kermit`)                            |
-| Navigation stack | `NavigationObserver`   | Jetpack Navigation (`unveil-navigation-jetpack`, Android)|
+| Integration      | Interface              | Built-in Adapters                                |
+|------------------|------------------------|--------------------------------------------------|
+| Log writer       | `LogSink`              | Kermit (`unveil-logs-kermit`)                    |
+| Navigation stack | `NavigationObserver`   | Compose Navigation (`unveil-navigation-compose`) |
+| HTTP client      | `NetworkInterceptor`   | Ktor (`unveil-network-ktor`)                     |
 
 **Using OkHttp? Timber? LaunchDarkly?** Implement the interface. It's a handful of methods.
 
