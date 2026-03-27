@@ -84,9 +84,10 @@ internal fun NetworkPanel(
                         if (code in 100..599) onStatusOverrideCodeChange(code)
                     }
                 },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp)
             )
         }
         UnveilSectionHeader(

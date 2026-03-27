@@ -36,7 +36,7 @@ class DeviceInfoPlugin(
     appVersionName: String,
     appBuildNumber: String,
     buildVariant: String,
-    environment: String? = null,
+    environment: String? = null
 ) : UnveilPlugin {
     /**
      * Captured snapshot of app and device information.
@@ -55,7 +55,7 @@ class DeviceInfoPlugin(
             screenResolution = PlatformDeviceInfo.screenResolution,
             screenDensity = PlatformDeviceInfo.screenDensity,
             locale = PlatformDeviceInfo.locale,
-            timezone = PlatformDeviceInfo.timezone,
+            timezone = PlatformDeviceInfo.timezone
         )
 
     override val id: String = "device_info"

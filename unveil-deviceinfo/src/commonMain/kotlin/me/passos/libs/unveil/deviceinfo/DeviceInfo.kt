@@ -29,5 +29,5 @@ data class DeviceInfo(
     val screenResolution: String,
     val screenDensity: String,
     val locale: String,
-    val timezone: String,
+    val timezone: String
 )

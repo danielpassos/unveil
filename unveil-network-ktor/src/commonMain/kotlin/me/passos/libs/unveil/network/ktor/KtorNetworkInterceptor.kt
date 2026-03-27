@@ -18,7 +18,6 @@ import io.ktor.utils.io.InternalAPI
 import io.ktor.utils.io.readRemaining
 import kotlinx.coroutines.delay
 import kotlinx.io.readByteArray
-import me.passos.libs.unveil.network.NetworkPlugin
 import me.passos.libs.unveil.network.NetworkRequest
 import me.passos.libs.unveil.network.NetworkResponse
 import kotlin.coroutines.CoroutineContext

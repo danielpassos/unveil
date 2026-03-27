@@ -16,7 +16,7 @@ internal fun DeviceInfoPanel(deviceInfo: DeviceInfo) {
         modifier =
             Modifier
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState()),
+                .verticalScroll(rememberScrollState())
     ) {
         UnveilSectionHeader(title = "App")
         UnveilValueRow(label = "Version", value = deviceInfo.appVersionName)

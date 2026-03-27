@@ -59,14 +59,18 @@ class NetworkPlugin : UnveilPlugin {
      */
     var delayEnabled: Boolean
         get() = (delayConfig as DelayState).enabled
-        set(value) { (delayConfig as DelayState).enabled = value }
+        set(value) {
+            (delayConfig as DelayState).enabled = value
+        }
 
     /**
      * Duration of the artificial delay in seconds.
      */
     var delaySeconds: Float
         get() = (delayConfig as DelayState).delaySeconds
-        set(value) { (delayConfig as DelayState).delaySeconds = value }
+        set(value) {
+            (delayConfig as DelayState).delaySeconds = value
+        }
 
     // endregion
 
@@ -82,14 +86,18 @@ class NetworkPlugin : UnveilPlugin {
      */
     var statusOverrideEnabled: Boolean
         get() = (statusOverrideConfig as StatusOverrideState).enabled
-        set(value) { (statusOverrideConfig as StatusOverrideState).enabled = value }
+        set(value) {
+            (statusOverrideConfig as StatusOverrideState).enabled = value
+        }
 
     /**
      * The status code to use when [statusOverrideEnabled] is true.
      */
     var statusOverrideCode: Int
         get() = (statusOverrideConfig as StatusOverrideState).statusCode
-        set(value) { (statusOverrideConfig as StatusOverrideState).statusCode = value }
+        set(value) {
+            (statusOverrideConfig as StatusOverrideState).statusCode = value
+        }
 
     // endregion
 
