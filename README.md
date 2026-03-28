@@ -1,84 +1,69 @@
-<div id="user-content-toc">
-   <ul style="list-style: none;">
-      <summary>
-         <a href="https://github.com/danielpassos/unveil/actions/workflows/gradle.yml">
-            <img src="https://img.shields.io/github/actions/workflow/status/danielpassos/unveil/gradle.yml" alt="Build">
-         </a>
-         <a href="https://search.maven.org/search?q=g:me.passos.libs.unveil">
-            <img src="https://img.shields.io/maven-central/v/me.passos.libs.unveil/unveil-core" alt="Maven Central">
-         </a>
-         <a href="https://kotlinlang.org/multiplatform/">
-            <img src="https://img.shields.io/badge/Kotlin-Multiplatform-blue.svg" alt="Kotlin Multiplatform">
-         </a>
-         <a href="https://kotlinlang.org/compose-multiplatform/">
-            <img src="https://img.shields.io/badge/Compose-Multiplatform-green.svg" alt="Compose Multiplatform">
-         </a>
-         <a href="https://opensource.org/licenses/Apache-2.0">
-            <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="License">
-         </a>
-      </summary>
-   </ul>
-</div>
-<p align="center">
-   <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="assets/logo_dark.svg">
-      <img src="assets/logo.svg" alt="Unveil" width="500">
-   </picture>
-</p>
+<div align="center">
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/logo_dark.svg">
+  <img src="assets/logo.svg" alt="Unveil" width="420">
+</picture>
+
+<br/>
 
 > *The hidden side of your app, one swipe away.*
 
+<br/>
+
+[![Build](https://img.shields.io/github/actions/workflow/status/danielpassos/unveil/gradle.yml)](https://github.com/danielpassos/unveil/actions/workflows/gradle.yml)
+[![Maven Central](https://img.shields.io/maven-central/v/me.passos.libs.unveil/unveil-core)](https://search.maven.org/search?q=g:me.passos.libs.unveil)
+[![KMP](https://img.shields.io/badge/Kotlin-Multiplatform-blue.svg)](https://kotlinlang.org/multiplatform/)
+[![Compose](https://img.shields.io/badge/Compose-Multiplatform-green.svg)](https://kotlinlang.org/compose-multiplatform/)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
+</div>
+
+---
+
+## Why Unveil
+
 Every app has two faces.
 
-The one your users see, polished, intentional, pixel-perfect and the one underneath,
-network calls firing, flags toggling, logs streaming, navigation stacks unwinding.
-Most of the time that second face is invisible. It has to be.
+The one your users see — polished, intentional, pixel-perfect.
+And the one underneath — network calls, logs, flags, navigation, state.
 
-**Unveil is the moment you choose to see the truth.**
+That second face is where bugs live.
+That second face is what QA sees.
+That second face is what you debug every day.
 
-A single swipe from the right edge of your screen. Suddenly the invisible becomes
-visible, every request your app made, every flag that's active, every log line that
-fired, the exact navigation stack your QA engineer is staring at when they file
-that bug. When you're done, fold it back. Your users will never know it was there.
+**Unveil makes it visible.**
 
-## Design Principles
+A single swipe.
+Everything is there.
 
-**It doesn't touch your app.** `UnveilHost` wraps your content composable.
-That's the only change to your existing code. Everything else, plugins, interceptors,
-observers is wired up separately in your initialization layer.
+And when you're done — it's gone.
 
-**It disappears completely.** Call `Unveil.disable()` and the library exerts zero overhead.
-No gesture detection, no UI, no background work. The consumer decides when Unveil is active.
-The library makes no assumptions about build variants or environments.
+---
 
-**It doesn't depend on your stack.** No Material3. No Koin. No Jetpack Navigation. Unveil
-ships its own minimal design system, and every integration point is an interface. It can
-be extracted from any Compose Multiplatform project and dropped into any other.
+## ✨ What You Get
 
-**It's a plugin system, not a monolith.** Features register themselves. The drawer knows
-nothing about the features. You can write and ship your own plugins using the same
-`UnveilPlugin` interface.
+- 💥 Trigger crashes on demand
+- 📱 Device and environment info
+- 📋 Stream and filter logs
+- 🧭 Visualize navigation state
+- 🌐 Inspect network requests in real time
 
-## Platform Support
+All inside your app.
+No external tools. No rebuilds.
 
-| Platform                    | Support        |
-|-----------------------------|----------------|
-| Android                     | ✅              |
-| iOS (Compose Multiplatform) | ✅              |
-| Desktop                     | 🔲 Not Planned |
+---
 
-## What It Looks Like
+## ⚡ Quick Start
 
 ```kotlin
-// One-time setup
 Unveil.configure {
-    register(SomePlugin())
+    register(NetworkPlugin(...))
+    register(LogPlugin(...))
 }
 
-// Your call. Your environment. Your rules.
 if (BuildConfig.DEBUG) Unveil.enable()
 
-// Wrap your app at once. Touch nothing else.
 @Composable
 fun App() {
     UnveilHost(enabled = Unveil.isEnabled) {
@@ -87,132 +72,211 @@ fun App() {
 }
 ```
 
-## Features
+That’s it.
 
-Unveil is a drawer panel that slides in from the right edge of your screen.
-It's built around a **plugin system**, every feature is self-contained and optional.
-Add only what you need.
+---
 
-### 💥 Crash Simulation
+## 🧩 Plugin System
 
-Trigger a crash, an ANR, an unhandled exception, or an OOM on demand.
-No special code required. Essential for testing crash reporting pipelines.
+Unveil is not a tool.
 
-### 📱 Device Info
+It’s a **platform for tools**.
 
-See app version, build variant, environment, device model, OS version, screen resolution and
-density, locale, and timezone, all in one place.
+Everything is a plugin.
 
-### 📋 Logs
+```kotlin
+Unveil.configure {
+    register(NetworkPlugin(...))
+    register(LogPlugin(...))
+}
+```
 
-Stream live log events from your app with filtering by level (V/D/I/W/E/A) and free-text
-search across tag and message. Configurable buffer size. Zero changes to existing log call sites.
+And when you need flexibility:
 
-### 🧭 Navigation
+```kotlin
+Unveil.register(SomePlugin())
+```
 
-Inspect the live back stack and the full navigation history. Every destination change is captured
-with its resolved route, direction (push or pop), arguments, and timestamp.
+No coupling. No assumptions. Just composition.
 
-### 🌐 Network
+---
 
-Inspect every HTTP request and response in real time, delay responses and override status codes.
-All without touching your app code or restarting a server.
+## 🏗 Architecture
 
-## Installation
+- **Zero impact on your app**
+  `UnveilHost` wraps your UI. Nothing else changes.
+
+- **Zero overhead when disabled**
+  No UI. No gestures. No background work.
+
+- **Zero dependency on your stack**
+  No Material. No DI. No navigation library.
+
+- **Fully modular**
+  Core knows nothing about features.
+
+---
+
+## 📦 Installation
+
+Unveil is modular.
+
+Start with the core, then add only the plugins you need.
+
+---
+
+### Core
 
 ```toml
-# gradle/libs.versions.toml
 [versions]
 unveil = "current_version"
 
 [libraries]
-# Core — required
 unveil-core = { module = "me.passos.libs.unveil:unveil-core", version.ref = "unveil" }
+```
 
-# Features — add only what you need
-unveil-crash = { module = "me.passos.libs.unveil:unveil-crash", version.ref = "unveil" }
+```kotlin
+commonMain.dependencies {
+    implementation(libs.unveil.core)
+}
+```
+
+---
+
+### Add plugins
+
+Pick the features you need:
+
+```toml
+unveil-crash  = { module = "me.passos.libs.unveil:unveil-crash", version.ref = "unveil" }
 unveil-deviceinfo = { module = "me.passos.libs.unveil:unveil-deviceinfo", version.ref = "unveil" }
 unveil-logs = { module = "me.passos.libs.unveil:unveil-logs", version.ref = "unveil" }
+unveil-navigation = { module = "me.passos.libs.unveil:unveil-navigation", version.ref = "unveil" }
+unveil-network = { module = "me.passos.libs.unveil:unveil-network", version.ref = "unveil" }
+```
+
+```kotlin
+commonMain.dependencies {
+    implementation(libs.unveil.logs)
+    implementation(libs.unveil.network)
+}
+```
+
+---
+
+### Add adapters
+
+Adapters connect Unveil to your stack:
+
+```toml
 unveil-logs-kermit = { module = "me.passos.libs.unveil:unveil-logs-kermit", version.ref = "unveil" }
+unveil-network-ktor = { module = "me.passos.libs.unveil:unveil-network-ktor", version.ref = "unveil" }
+unveil-navigation-compose  = { module = "me.passos.libs.unveil:unveil-navigation-compose", version.ref = "unveil" }
+```
+
+---
+
+### Full setup (copy & paste)
+
+Want everything?
+
+```toml
+unveil-core = { module = "me.passos.libs.unveil:unveil-core", version.ref = "unveil" }
+
+unveil-crash = { module = "me.passos.libs.unveil:unveil-crash", version.ref = "unveil" }
+unveil-deviceinfo = { module = "me.passos.libs.unveil:unveil-deviceinfo", version.ref = "unveil" }
+
+unveil-logs = { module = "me.passos.libs.unveil:unveil-logs", version.ref = "unveil" }
+unveil-logs-kermit = { module = "me.passos.libs.unveil:unveil-logs-kermit", version.ref = "unveil" }
+
 unveil-navigation = { module = "me.passos.libs.unveil:unveil-navigation", version.ref = "unveil" }
 unveil-navigation-compose = { module = "me.passos.libs.unveil:unveil-navigation-compose", version.ref = "unveil" }
+
 unveil-network = { module = "me.passos.libs.unveil:unveil-network", version.ref = "unveil" }
 unveil-network-ktor = { module = "me.passos.libs.unveil:unveil-network-ktor", version.ref = "unveil" }
 ```
 
+---
+
+### Available modules
+
+| Category   | Modules                                          |
+|------------|--------------------------------------------------|
+| Core       | `unveil-core`                                    |
+| Crash      | `unveil-crash`                                   |
+| Device     | `unveil-deviceinfo`                              |
+| Logs       | `unveil-logs`, `unveil-logs-kermit`              |
+| Navigation | `unveil-navigation`, `unveil-navigation-compose` |
+| Network    | `unveil-network`, `unveil-network-ktor`          |
+
+---
+
+### Requirements
+
+`unveil-core` requires:
+
+- `compose.ui`
+- `compose.animation`
+- `compose.material3`
+- `androidx.activity:activity-compose` (Android only)
+
+---
+
+## 🧪 Example Plugin
+
 ```kotlin
-// build.gradle.kts (common module)
-kotlin {
-    sourceSets {
-        commonMain.dependencies {
-            implementation(libs.unveil.core)
-            implementation(libs.unveil.crash)
-            implementation(libs.unveil.deviceinfo)
-            implementation(libs.unveil.logs)
-            implementation(libs.unveil.logs.kermit)
-            implementation(libs.unveil.navigation)
-            implementation(libs.unveil.navigation.compose)
-            implementation(libs.unveil.network)
-            implementation(libs.unveil.network - ktor)
-        }
-    }
-}
-```
-
-### Extra considerations
-
-`unveil-core` additionally requires:
-
-- `compose.ui`, `compose.animation`, `compose.material3`
-- `androidx.activity:activity-compose` in `androidMain` (for `BackHandler`)
-
-## Writing a Custom Plugin
-
-```kotlin
-class MyCustomPlugin : UnveilPlugin {
+class MyPlugin : UnveilPlugin {
     override val id = "my_plugin"
     override val title = "My Plugin"
     override val icon = UnveilIcon.Emoji("🔧")
 
-    // Optional: chip-strip shortcuts at the top of the drawer
-    override val quickActions = listOf(
-        QuickAction(
-            label = "Reset",
-            icon = UnveilIcon.Emoji("♻️"),
-            isActive = false
-        ) {
-            // your reset logic
-        }
-    )
-
     @Composable
     override fun Content(scope: UnveilPanelScope) {
-        // Your plugin UI -> full Compose, no restrictions
-        // Use scope.pushPage(...) to open a sub-page (level 2 navigation)
+        // Build anything you want
     }
 }
-
-// Register it alongside the built-in plugins
-Unveil.configure {
-    register(MyCustomPlugin())
-}
 ```
 
-## Adapters
+---
 
-Unveil has **zero opinion about your stack**. Every integration point is an interface.
-Use the adapter for your framework or implement the interface yourself.
+## 🔌 Adapters
 
-| Integration      | Interface            | Built-in Adapters                                |
-|------------------|----------------------|--------------------------------------------------|
-| Log writer       | `LogSink`            | Kermit (`unveil-logs-kermit`)                    |
-| Navigation stack | `NavigationObserver` | Compose Navigation (`unveil-navigation-compose`) |
-| HTTP client      | `NetworkInterceptor` | Ktor (`unveil-network-ktor`)                     |
+Unveil is stack-agnostic.
 
-**Using OkHttp? Timber? LaunchDarkly?** Implement the interface. It's a handful of methods.
+Each integration point is defined as an interface.
+You can use a built-in adapter or provide your own implementation.
 
-```kotlin
-// Example: custom
+### Built-in adapters
 
-// TODO
-```
+| Integration | Interface            | Adapter                      |
+|-------------|----------------------|------------------------------|
+| Logs        | `LogSink`            | Kermit                       |
+| Network     | `NetworkInterceptor` | Ktor                         |
+| Navigation  | `NavigationObserver` | Compose Navigation           |
+
+Using OkHttp? Timber? Voyager?
+Implement the interface — it’s a handful of methods.
+
+---
+
+## 📱 Platforms
+
+| Platform | Support |
+|---------|----|
+| Android | ✅  |
+| iOS     | ✅  |
+| Desktop | 🔲 |
+
+---
+
+## 🧠 Philosophy
+
+Unveil is not a debug panel.
+
+It’s **observability inside your UI**.
+
+---
+
+## 📄 License
+
+Apache 2.0
