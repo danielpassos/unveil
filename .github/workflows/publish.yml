@@ -12,6 +12,7 @@ jobs:
     name: Release build and publish
     needs: ci
     runs-on: ubuntu-latest
+    environment: Publish
     steps:
       - name: Check out code
         uses: actions/checkout@v4
